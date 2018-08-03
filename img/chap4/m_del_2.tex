@@ -1,0 +1,15 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {$p$};
+	\node[state] (q) [right of=r] {$q$};
+
+	\path[->]
+    	%(init) edge (p)
+		(p) edge node[above] {$\xi + \alpha\gamma^*\beta$} (q);
+\end{tikzpicture}
+\caption{Подграф графа конечного автомата $M$ после удаления вершины $r$}
+\label{m_del_2}
+\end{figure}
+

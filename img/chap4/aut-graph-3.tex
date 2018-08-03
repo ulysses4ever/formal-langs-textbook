@@ -1,0 +1,29 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (8) [right=.7cm of init] {$8$};
+    \node[state] (0) [below right of=8] {$0$};
+	\node[state] (1) [above right of=8] {$1$};
+    \node[state] (5) [right of=0] {$5$};
+    \node[state] (2) [right of=1] {$2$};
+    \node[state] (6) [right of=5] {$6$};
+    \node[state] (3) [right of=2] {$3$};
+	\node[state,accepting] (4) [right of=3] {$4$};
+    \node[state,accepting] (7) [right of=6] {$7$};
+
+	\path[->]
+    	(init) edge (8)
+		(8) edge [loop above] node {$a..z$} (8)
+		(8) edge node {$\eps$} (1)
+        (1) edge node {$w$} (2)
+        (2) edge node {$e$} (3)
+        (3) edge node {$b$} (4)
+        (8) edge node {$\eps$} (0)
+        (0) edge node {$d$} (5)
+        (5) edge node {$a$} (6)
+        (6) edge node {$y$} (7);
+\end{tikzpicture}
+\caption{Использование спонтанных переходов для распознавания ключевых слов}
+\label{ch4-aut-graph-3}
+\end{figure}

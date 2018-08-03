@@ -1,0 +1,19 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {$p$};
+    \node[state] (r) [right of=p] {$r$};
+	\node[state] (q) [right of=r] {$q$};
+
+	\path[->]
+    	%(init) edge (p)
+		(p) edge node[above] {$\alpha$} (r)
+		(p) edge [bend right] node[below] {$\xi$} (q)
+    (r) edge [loop above] node[above] {$\gamma$} (r)
+    (r) edge node[above] {$\beta$} (q);
+\end{tikzpicture}
+\caption{Подграф графа конечного автомата $M$ до удаления вершины $r$}
+\label{m_del_1}
+\end{figure}
+

@@ -1,0 +1,157 @@
+% Оформление теорем (ntheorem)
+
+\usepackage{MnSymbol}
+\usepackage [thmmarks, amsmath] {ntheorem}
+\theorempreskipamount 0.3cm
+
+\theoremstyle {plain} %
+\theoremheaderfont {\normalfont \bfseries} %
+\theorembodyfont {\slshape} %
+\theoremsymbol {\ensuremath {_\square}} %
+\theoremseparator {.} %
+\newtheorem {mystatement} {Утверждение} [section] %
+\newtheorem {mylemma} {Лемма} [section] %
+\newtheorem {mytheorem} {Теорема} [section] %
+\newtheorem {mycorollary} {Следствие} [section] %
+
+\theoremstyle {nonumberplain} %
+\theoremseparator {.} %
+\theoremsymbol {\ensuremath {_\diamondsuit}} %
+\newtheorem {mydefinition} {Определение} %
+
+\theoremstyle {plain} %
+\theoremheaderfont {\normalfont \bfseries}
+\theorembodyfont {\normalfont}
+%\theoremsymbol {\ensuremath {_\Box}} %
+\theoremseparator {.} %
+\newtheorem {mytask} {Задача} [section]%
+\renewcommand{\themytask}{\arabic{mytask}}
+
+\theorembodyfont {\upshape} %
+\theoremseparator {.} %
+
+\theoremsymbol {\ensuremath{\blacksquare}} %
+\newtheorem {myexample} {Пример}[section] %
+\newtheorem {myexamples}[section] {Примеры} %
+
+\theoremsymbol {\ensuremath{\square}} %
+\newtheorem {myproblem} {Упражнение}[section] %
+
+\theorempreskipamount 0cm
+
+\theoremstyle {nonumberplain} %
+\newtheorem {myremark} {Замечание} %
+
+\theoremheaderfont {\itshape} %
+\theorembodyfont {\upshape} %
+\theoremsymbol {\rule {1ex} {1ex}} %
+\newtheorem {myproof} {Доказательство} %
+
+\theorempreskipamount 0.3cm
+
+\theoremseparator {:} %
+\theoremsymbol {\ensuremath {_\triangle}} %
+\theoremstyle {nonumberbreak} %
+\newtheorem {myremarks} {Замечания} %
+
+%%%%%%%  Алгоритмы
+
+\usepackage{clrscode}
+\DeclareMathOperator{\Gen}{Gen}
+\DeclareMathOperator{\Reach}{Reach}
+
+% Линейка
+\newcommand*\varhrulefill[1][0.4pt]{\leavevmode\leaders\hrule height#1\hfill\kern0pt}
+
+
+% Список для описания алгоритма
+\newlist{algoenum}{enumerate}{3}
+\setlist[algoenum]{%
+     label=\textit{Шаг~\arabic*.}%
+    %,before=\raggedright%{}
+    ,leftmargin=\parindent+\widthof{\textit{Шаг~9.}}+\labelsep%{}
+    ,topsep=0pt
+}
+
+\usepackage{etoolbox}
+\usepackage{float}
+\floatstyle{ruled}
+
+ \makeatletter
+\patchcmd{\fs@ruled}
+ {\def\@fs@post{\kern2pt\hrule\relax}}
+ {\def\@fs@post{\kern2pt\hrule height 0pt depth .8pt\relax}}
+ {}{}
+
+\renewcommand\floatc@ruled[2]{{\@fs@cfont #1.} #2\par}
+\makeatother
+
+\floatname{AlgoEnv}{Алгоритм}
+\newfloat{AlgoEnv}{htbp}{loa}[section]
+
+
+
+\newcommand{\AlgoPre}[3]{%
+\begin{description}
+    \item [Вход]
+#1
+
+    \item [Выход]
+#2
+
+    \item [Метод]
+#3
+\end{description}%
+}
+
+\newcommand{\AlgoPreNoMeth}[2]{%
+\begin{description}
+    \item [Вход]
+#1
+
+    \item [Выход]
+#2
+\end{description}%
+}
+
+\newcommand{\AlgoBody}[1]{%
+\begin{algoenum}
+#1
+\end{algoenum}
+}
+
+% #1 - placement (optional), #2 - name, #3-5 - preamble (In/Out/Method), 6 - body
+\newcommand{\Algo}[6][t]{%
+\begin{AlgoEnv}[#1]
+\caption{#2}
+\AlgoPre{#3}{#4}{#5}
+\vspace{-5mm}
+\varhrulefill[.2pt]
+\AlgoBody{#6}
+\end{AlgoEnv}
+}
+
+% #1 - placement (optional), #2 - name, #3-4 - preamble (In/Out), 5 - body
+\newcommand{\AlgoNoMeth}[5][t]{%
+\begin{AlgoEnv}[#1]
+\caption{#2}
+\AlgoPreNoMeth{#3}{#4}
+\vspace{-5mm}
+\varhrulefill[.2pt]
+\AlgoBody{#5}
+\end{AlgoEnv}
+}
+
+% #1 - placement (optional), #2 - name, #3-4 - preamble (In/Out), 5 - body
+\newcommand{\AlgoPseudoCode}[5][t]{%
+\begin{AlgoEnv}[#1]
+\caption{#2}
+\AlgoPreNoMeth{#3}{#4}
+\vspace{-5mm}
+\varhrulefill[.2pt]
+\begin{codebox}
+#5
+\end{codebox}
+\end{AlgoEnv}
+}
+

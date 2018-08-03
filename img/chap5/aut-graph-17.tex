@@ -1,0 +1,23 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state, accepting] (q_0) [right=.7cm of init] {$q_0$};
+    \node[state] (q_1) [right of=q_0] {$q_1$};
+	\node[state] (q_2) [right of=q_1] {$q_2$};
+    \node[state, accepting] (q_E) [below of=q_1] {$q_E$};
+    
+	\path[->]
+    	(init) edge (q_0)
+        (q_0) edge node {$a$} (q_1)
+        (q_0) edge node {$b, c$} (q_E)
+        (q_1) edge [loop above] node {$b$} (q_1)
+        (q_1) edge node {$c$} (q_2)
+        (q_1) edge node {$a$} (q_E)
+		(q_2) edge [loop above] node {$c$} (q_2)
+		(q_2) edge node {$a, b$} (q_E)
+		(q_E) edge [loop below] node {$a, b, c$} (q_E);
+\end{tikzpicture}
+\caption{ДКА из примера 5.1.4, распознающий язык  $\bar L_2 $}
+\label{aut-graph-17}
+\end{figure}

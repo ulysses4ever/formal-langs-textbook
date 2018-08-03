@@ -1,0 +1,33 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (q_0) [right=.7cm of init] {$q_0$};
+    \node[state] (q_2) [right of=q_0] {$q_2$};
+    \node[state] (q_1) [above of=q_2] {$q_1$};
+
+    \node[state, accepting] (q_3) [right of=q_1] {$q_3$};
+    \node[state, accepting] (q_4) [right of=q_2] {$q_4$};
+    \node[state] (q_5) [right of=q_3] {$q_5$};
+	\node[state] (q_6) [right of=q_4] {$q_6$};
+
+	\path[->]
+    	(init) edge (q_0)
+		(q_0) edge node[right] {$a$} (q_1)
+		(q_0) edge node[right] {$b$} (q_2)
+		(q_1) edge node[right] {$b$} (q_3)
+		(q_2) edge node[right] {$b$} (q_4)
+		(q_3) edge node[below] {$a$} (q_2)
+		(q_3) edge[bend left] node[below] {$b$} (q_4)
+    (q_4) edge node[left] {$a$} (q_1)
+    (q_4) edge node[above] {$b$} (q_3)
+    (q_5) edge node[left] {$a$} (q_3)
+    (q_5) edge node[below] {$b$} (q_6)
+    (q_6) edge node[left] {$b$} (q_4)
+    (q_6) edge[bend left] node[above] {$a$} (q_5)
+    ;
+\end{tikzpicture}
+\caption{Граф переходов ДКА с недостижимыми состояниями}
+\label{aut-graph-10}
+\end{figure}
+

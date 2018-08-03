@@ -1,0 +1,31 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+\begin{scope}
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+    \node[state] (p1) [right of=p] {};
+		\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p.south west)+(-2ex,-2ex)$) rectangle ($(p1.north east)+(2ex,2ex)$) node[pos=.6] {$R$}
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}
+\begin{scope}
+    \node[state] (p2) [right=1.9cm of p1] {};
+    \node[state, accepting] (f) [right of=p2] {};
+		\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p2.south west)+(-2ex,-2ex)$) rectangle ($(f.north east)+(2ex,2ex)$) node[pos=.6] {$S$}
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}
+	\path[->]
+    	(init) edge (p)
+      (p1) edge node {$\eps$} (p2);
+\end{tikzpicture}
+\caption{Схема автомата, распознающего конкатенацию двух языков}
+\label{ra-struct-2_b}
+\end{figure}

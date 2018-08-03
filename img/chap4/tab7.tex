@@ -1,0 +1,27 @@
+\begin{table}
+\centering
+\begin{tabular}{cccc}
+\toprule
+%
+\multicolumn{2}{c}{\multirow{2}{*}{\Large $\delta$}}
+	& \multicolumn{2}{c}{\text{Вход}} \\
+%
+\cmidrule(lr){3-4}
+%
+\multicolumn{2}{c}{}
+	& a  & b                          \\
+%
+\midrule
+%
+\multirow{6}{*}{\text{Состояние}}%
+    &  $\boxed{{}\to A}$ & $\{F\}$ & $\{B\}$		  \\
+    &  $B$ & $\{E\}$ & $\{D\}$		  \\
+    &  $C$ & $\{C\}$ & $\{F\}$		  \\
+    &  $D$ & $\{D\}$ & $\{A\}$		  \\
+    &  $E$ & $\{B\}$ & $\{C\}$		  \\
+    &  $\boxed{F}$ & $\{F\}$ & $\{E\}$		  \\
+\bottomrule
+\end{tabular}
+\caption{Функция перехода $\delta$ для автомата из примера 4.6.2.}
+\label{tab7}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {$q_0$};
+	\node[state, accepting] (q) [right of=r] {$f$};
+
+	\path[->]
+    	(init) edge (p)
+			(p) edge[loop above] node[above] {$R$} (p)
+			(q) edge[loop above] node[above] {$U$} (q)
+		(p) edge[bend left] node[above] {$S$} (q)
+		(q) edge[bend left] node[below] {$T$} (p);
+\end{tikzpicture}
+\caption{Обобщенный автомат с двумя состояниями}
+\label{excl-aut-1}
+\end{figure}
+

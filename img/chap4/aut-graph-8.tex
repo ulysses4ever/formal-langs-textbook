@@ -1,0 +1,22 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (S) [right=.7cm of init] {$S$};
+    \node[state] (T) [right of=S] {$T$};
+	\node[state, accepting] (f) [right of=T] {$f$};
+
+	\path[->]
+    	(init) edge (S)
+		(S) edge [loop above] node[right] {$1$} (S)
+		(S) edge [bend left] node[above] {$01$} (T)
+    (T) edge [loop above] node {$000$} (T)
+    (T) edge [bend left] node[above] {$01$} (f)
+    (T) edge [left] node[below] {$\eps$} (f)
+    (T) edge [left] node[below] {$11$} (S)
+    (S) edge [bend right] node[below] {$\eps$} (f);
+\end{tikzpicture}
+\caption{Граф переходов $\hat{\delta}$-функции из примера~\ref{ex-pl-to-nka}}
+\label{aut-graph-8}
+\end{figure}
+

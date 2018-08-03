@@ -1,0 +1,141 @@
+\addchap{Введение}
+\label{Intro}
+
+\chapter{Способы задания и распознавания формальных языков}
+\label{Chapter1}
+\section{Алфавит и слова}
+\label{Chapter1Alphabet}
+\section{Языки и операции над языками}
+\label{Chapter1LangsOps}
+\section{Грамматики}
+\label{Chapter1Grammars}
+\section{Классификация грамматик}
+\label{Chapter1GrammarsClasses}
+\section{Распознаватели}
+\label{Chapter1Parsers}
+\section{Упражнения}
+\label{Chapter1Exs}
+
+\chapter{Регулярные языки}
+\label{Chapter2}
+\section{Регулярные множества и регулярные выражения}
+\label{Chapter2RegExprs}
+\section{Уравнения и системы уравнений с регулярными коэффициентами}
+\label{Chapter2Systems}
+\section{Алгоритм решения систем уравнений с регулярными коэффициентами}
+\label{Chapter2SysSolverAlg}
+\section{Совпадение классов регулярных и ПЛ-языков}
+\label{Chapter2MatchRegRL}
+\section{Упражнения}
+\label{Chapter2Exs}
+
+\chapter{Конечные автоматы}
+\label{Chapter3}
+\section{Определения и примеры}
+\label{Chapter3Defines}
+\section{Редукция недетерминированных конечных автоматов к детерминированным}
+\label{Chapter3Reduct}
+\section{Граф переходов}
+\label{Chapter3Graph}
+\section{Совпадение классов конечно"/автоматных, регулярных и ПЛ-языков}
+\label{Chapter3MathesFARL}
+\section{Лемма о разрастании для регулярных языков}
+\label{Chapter3Pumplemma}
+\section{Упражнения}
+\label{Chapter3Exs}
+
+
+\chapter{Конечные автоматы со спонтанными переходами}
+\label{Chapter4}
+\section{Определения и примеры}
+\label{Chapter4Defines}
+\section{Редукция $\eps$-НКА к ДКА}
+\label{Chapter4Reduct}
+\section{Преобразование регулярного выражения в автомат}
+\label{Chapter4RegtoFA}
+\section{Построение $\eps$-НКА по ПЛ-грамматике}
+\label{Chapter4GramtoFA}
+\section{Вычисление языка $\eps$-НКА}
+\label{Chapter4FALang}
+\section{Задача минимизации конечного автомата}
+\label{Chapter4FALMin}
+\section{Упражнения}
+\label{Chapter4Exs}
+
+
+\chapter{Булева алгебра регулярных языков}
+\label{Chapter5}
+\section{Свойства регулярных языков}
+\label{Chapter5PropsReg}
+\section{Замкнутость регулярных множеств относительно базисных операций}
+\label{Chapter5Closure}
+\section{Алгоритмические проблемы регулярных языков}
+\label{Chapter5AlgProblems}
+\section{Упражнения}
+\label{Chapter5Exs}
+
+\chapter{Контекстно"/свободные языки}
+\label{cfg-intro}
+\section{Деревья выводов в КС"/грамматиках}
+\label{Chapter6-trees}
+
+~\ref{lemma-oSech}
+~\ref{lemma-oKrone}
+~\ref{theorem-SechKrona}
+
+\section{Проблема непустоты и устранение бесполезных символов}
+\label{Chapter6-problemEmptyLang}
+
+~\ref{algo-KS-NonEmptyLang}
+~\ref{algo-KS-NonEmptyLang-Stab}
+~\ref{lemma-NonEmptyAlgoCorr-1}
+~\ref{lemma-NonEmptyAlgoCorr-2}
+
+~\ref{algo-DelNonAvailSybmbols}
+~\ref{algo-DelUselessSybmbols}
+~\ref{theorem-AlgoDelUselessSymbolsCorrectness} 4.2.2
+~\ref{theorem-AlgoDelEpsProductionsCorrectness} 4.3.1
+~\ref{problem-GrammarToEpsFreeGrammarWOUselessSymbols} 4.3.1
+~\ref{theorem-AlgoDelEpsProductionsCorrectnessWOEpsProducts} 4.3.2
+~\ref{problem-GrammarToEpsFreeGrammarWOCyclicSymbols} 4.3.2
+~\ref{problem-eqOfLangsWithoutUselessSymbols}
+
+\section{Построение приведенной КС"/грамматики}
+\label{Chapter6-normalizeGrammar}
+
+~\ref{algo-GrammarToEpsFreeGrammar}
+~\ref{algo-DelCyclicProductions}
+~\ref{algo-NormalGrammar}
+~\ref{theorem-NormalGrammarAlgoCorrectness}
+
+\section{Упражнения}
+\label{Chapter6Exs}
+
+\chapter{Нормальные формы КС"/грамматик}
+\label{normal-cfg}
+\section{Нормальная форма Хомского}
+\label{Chapter7NFH}
+
+~\ref{algo-Homsky}
+~\ref{algo-HomskyMod}
+~\ref{lemma-proofOfHomsky}
+~\ref{theorem-AlgoHomskyProof}
+~\ref{example-GramToHomsky}
+
+\section{Матричный метод перехода к нормальной форме Грейбах}
+\label{Chapter7NFG-MT}
+\section{Проблема принадлежности для КС"/языков}
+\label{Chapter7ProblemB}
+\section{Упражнения}
+\label{Chapter7Exs}
+
+\chapter{Автоматы с магазинной памятью}
+\label{Chapter8FSMSM}
+\section{Определения и примеры}
+\label{Chapter8Defines}
+\section{Варианты МП"/автоматов}
+\label{Chapter8FSMSMVariants}
+\section {Эквивалентность МП"/автоматов и КС"/грамматик}
+\label{Chapter8GrammarEqFSM}
+\section{Упражнения}
+\label{Chapter8Exs}

@@ -1,0 +1,19 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p_0) [right=.7cm of init] {$p_0$};
+    \node[state] (p_1) [right of=p_0] {$p_1$};
+	\node[state, accepting] (p_2) [below of=p_1] {$p_2$};
+    
+	\path[->]
+    	(init) edge (p_0)
+        (p_0) edge [loop above] node {$a$} (p_0)
+        (p_0) edge node {$b$} (p_1)
+        (p_0) edge node {$c$} (p_2)
+        (p_1) edge [loop above] node {$b$} (p_1)
+        (p_1) edge node {$c$} (p_2);
+\end{tikzpicture}
+\caption{ДКА из примера 5.1.4, распознающий язык  $ L_1 $}
+\label{aut-graph-18}
+\end{figure}

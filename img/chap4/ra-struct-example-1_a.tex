@@ -1,0 +1,22 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+  \node[state] (p1) [above right of=p] {};
+	\node[state] (q1) [below right of=p] {};
+	\node[state] (f) [right=3.9cm of p] {};
+	\node[state] (p2) [above left of=f] {};
+	\node[state] (q2) [below left of=f] {};
+	\path[->]
+    	%(init) edge (p)
+			(p) edge node {$\eps$} (p1)
+			(p) edge node {$\eps$} (q1)
+			(p1) edge node {$0$} (p2)
+			(q1) edge node {$1$} (q2)
+			(p2) edge node {$\eps$} (f)
+			(q2) edge node {$\eps$} (f);	
+\end{tikzpicture}
+\caption{Автомат для регулярного выражения $0 + 1$}
+\label{ra-struct-example-1_a}
+\end{figure}

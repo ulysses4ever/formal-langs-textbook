@@ -1,0 +1,28 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm,>=stealth',auto,every state/.style={thick}] 
+	\node (init) {};
+	\node[state] (p_ext) [right=.7cm of init] {};
+	\node[state] (p) [right of=p_ext] {};
+  \node[state] (p1) [above right of=p] {};
+	\node[state] (q1) [below right of=p] {};
+	\node[state] (f) [right=3.9cm of p] {};
+	\node[state] (f_ext) [right of=f] {};
+	\node[state] (p2) [above left of=f] {};
+	\node[state] (q2) [below left of=f] {};
+	\path[->]
+    	%(init) edge (p)
+			(p_ext) edge node {$\eps$} (p)
+			(p) edge node {$\eps$} (p1)
+			(p) edge node {$\eps$} (q1)
+			(p1) edge node {$0$} (p2)
+			(q1) edge node {$1$} (q2)
+			(p2) edge node {$\eps$} (f)
+			(q2) edge node {$\eps$} (f)
+			(f) edge node {$\eps$} (f_ext)	
+			(p_ext) edge [bend left=60,in=130,out=50] node [above] {$\eps$} (f_ext)
+			(f) edge [bend left=160,in=75,out=100] node [below] {$\eps$} (p);	
+\end{tikzpicture}
+\caption{Автомат для регулярного выражения $(0 + 1)^*$}
+\label{ra-struct-example-1_b}
+\end{figure}

@@ -1,0 +1,273 @@
+\renewcommand{\theAlgoEnv}{\Alph{chapter}.\arabic{AlgoEnv}}
+
+\chapter{Алгоритмы для контекстно-свободных грамматик}
+
+В этом приложении алгоритмы, рассмотренные в
+главах~\ref{cfg-intro} и~\ref{normal-cfg}, приведены в виде
+псевдокода, что может облегчить программирование, а иногда и
+понимание этих алгоритмов.
+
+%\textbf{Некоторые обозначения, используемые при описании алгоритмов.}\\
+\paragraph{Некоторые обозначения, используемые при описании алгоритмов}
+\begin{itemize}
+    \item
+${A \gets B}$~— операция присваивания («$A$ присвоить $B$»);
+
+    \item
+$A \hookleftarrow a$~— операция добавления элемента в множество («добавить в
+множество $A$ элемент $a$»);
+
+    \item
+$A \hookleftarrow B$~— операция добавления
+множества элементов во множество («добавить в множество $A$ все элементы из
+$B$»);
+
+    \item
+${\rhd}$~— начало комментария, продолжающегося до конца строки.
+\end{itemize}
+
+\AlgoPseudoCode[H]{Нахождение порождающих символов}
+{\label{algo-gen}КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$.}
+{$\Gen_G(\Sigma)$  — множество порождающих в $G$ символов.}
+{%
+\li $\Gen_G(\Sigma) \gets \Sigma$ \Comment Терминалы являются порождающими
+символами
+\zi\Comment Ищем продукции, в правых частях которых только порождающие символы\ldots
+\li \While $\exists A \to X_1 \ldots X_n \in \mathcal P$, $n \geqslant 0$,
+такое что $\forall i \; X_i \in \Gen_G(\Sigma)$  \label{gen-induction}
+\zi     \Do
+        $\Gen_G(\Sigma) \hookleftarrow A$ \Comment \ldots левые части таких
+        продукций добавляются в $\Gen_G(\Sigma)$:
+        \End
+}
+
+\newcommand{\GenGS}{\ensuremath{\Gen_G(\Sigma)}}
+
+\AlgoPseudoCode[H]{Нахождение достижимых символов}{\label{algo-reach}%
+КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$.}
+{$\Reach_G$  — множество достижимых в $G$ символов.}
+{%
+\li $\Reach_G \gets \{ S \}$ \Comment $S$ достижим в $G$
+\zi\Comment Ищем продукции, в левых частях которых стоит достижимый символ\ldots
+\li \While $\exists A \to X_1 \ldots X_n \in \mathcal P$, такое что
+    $A \in \Reach_G$
+    % $\forall i \; X_i \in \Gen_G(\Sigma^*)$  \label{gen-induction}
+\zi \Comment \ldots символы из правых частей таких продукций добавляются
+в $\Reach_G$:
+\zi     \Do
+        $\Reach_G \hookleftarrow \{ X_i \}_{i=1}^n$
+        \End
+    \End
+}
+
+\begin{myremark}[о многократном просмотре продукций]
+В цикле на шаге~\ref{gen-induction} алгоритма~\ref{algo-gen}
+одна и та же продукция $A \to X_1 \ldots X_n$
+может быть просмотрена несколько раз, причём если на ранних итерациях она не
+удовлетворяла условию $\forall i \; X_i \in \Gen_G(\Sigma)$, то на поздних,
+когда множество $\Gen_G(\Sigma)$ станет достаточно большим, положение дел может
+измениться (условие $\forall i \; X_i \in \Gen_G(\Sigma)$ выполнится и $A$ надо
+будет добавить в $\Gen_G(\Sigma)$).
+
+Аналогичное справедливо для просмотра продукций в алгоритме~\ref{algo-reach}.
+\end{myremark}
+
+\AlgoNoMeth[H]{Удаление бесполезных символов}{\label{algo-del-useless}%
+КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$.}
+{КС-грамматика $G'=(\Sigma', N', \mathcal P', S \in N')$, не
+содержащая бесполезных символов, такая что $L(G') = L(G)$, либо сигнал о том,
+что язык исходной грамматики пуст и не существует эквивалентной $G$
+грамматики без бесполезных символов.}
+{
+  \item Построить множество \GenGS, используя алгоритм~\ref{algo-gen}. Если
+  $S \not \in \GenGS$ — завершение алгоритма, сообщение о пустоте языка исходной
+  грамматики. Иначе удалить из $G$ все символы, не вошедшие в \GenGS.
+  \item Построить множество $\Reach_G$, используя алгоритм~\ref{algo-reach}.
+  Удалить из $G$ все символы, не вошедшие в $\Reach_G$. Получившуюся грамматику
+  обозначить $G'$ и подать её на выход алгоритма.
+}
+
+\begin{myremark}[об операции удаления символа из грамматики]
+Когда в алгоритме требуется удалить символ $X$ из грамматики $G$, необходимо
+не только исключить его из множества $N$ или $\Sigma$, но и \emph{удалить из
+$\mathcal P$ все продукции, в которых он участвует}.
+\end{myremark}
+
+\Algo[H]{Удаление $\varepsilon$-правил}{\label{algo-del-eps}%
+КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$.}
+{КС-грамматика $G'=(\Sigma, N, \mathcal P', S \in N)$, без
+$\varepsilon$-правил (продукций вида $A \to \varepsilon$), такая что
+$L(G')=L(G) \setminus \{ \varepsilon \}$.}
+{«Устранение перегородок».}
+{
+  \item Построить множество $\Gen_G(\varepsilon) \subset N$ всех порождающих
+  $\varepsilon$ нетерминалов, используя следующую процедуру:
+  \begin{codebox}
+  \li   \For $A \to \varepsilon \in \mathcal P$
+  \zi   \Do
+            $\Gen_G(\varepsilon) \hookleftarrow A$
+        \End
+  \li   \While $\exists A \to X_1 \ldots X_n \in \mathcal P$,
+        где $\{ X_i \}_{i=0}^n \subset \Gen_G(\varepsilon)$
+  \zi       \Do
+            $\Gen_G(\varepsilon) \hookleftarrow A$
+            \End
+        \End
+  \end{codebox}
+  \item\label{remove-barriers} Выполнить следующие действия:
+  \begin{codebox}
+  \zi \For $A \to \alpha_0 B_1 \alpha_1 \ldots B_n \alpha_n \in \mathcal P$, где
+  $\forall i \; B_i \in \Gen_G(\varepsilon) \wedge \;
+  \alpha_i \in ((N \cup \Sigma) \setminus \Gen_G(\varepsilon))^*$
+  \zi   \Do
+        $\mathcal P \hookleftarrow
+            \{ \alpha_0 X_1 \alpha_1 \ldots X_n \alpha_n \mid
+            \forall i \; X_i = \varepsilon \vee X_i = B_i \}$
+        \End
+  \end{codebox}
+  \item Удалить из $\mathcal P$ все $\varepsilon$-правила, обозначить
+  получившееся множество правил $\mathcal P'$ и подать на выход алгоритма
+  грамматику $G' = (N, \Sigma, \mathcal P', S)$.
+}
+
+\begin{myremark}[о методе «устранения перегородок»]
+На шаге 2 каждая продукция $\mathcal P$ просматривается ровно
+один раз. Понятно, что для подходящего $n$ любая продукция может быть
+представлена в виде $A \to \alpha_0 B_1 \alpha_1 \ldots B_n \alpha_n$ с
+указанными условиями для $B_i$ и $\alpha_i$. Например, если в продукции нет
+$\varepsilon$"/порождающих символов, то это продукция вида $A \to
+\alpha_0$ и для неё нет необходимости добавлять новые продукции.
+
+Другой пример: продукция $C \to aDbD$, где $D \in \Gen_G(\varepsilon)$, $a, b \in
+\Sigma$, это продукция вида $A \to \alpha_0 B_1 \alpha_1 B_2 \alpha_2$, где $A =
+C$, $\alpha_0 = a$, $B_1 = B_2 = D$, $\alpha_2 = \varepsilon$, и для неё нужно
+добавить три новых продукции. Укажем их, пояснив название метода «удаления
+перегородок». Можно считать, что $\varepsilon$-порождающие символы $B_i$ являются
+«перегородками» в продукции $A \to \alpha_0 B_1 \alpha_1 \ldots B_n \alpha_n$ и
+новые продукции получаются из данной при помощи устранения этих перегородок всеми
+возможными способами. Для продукции $C \to aDbD$ это: $C \to abD$, $A \to aDb$ и
+$A \to ab$.
+\end{myremark}
+
+\AlgoNoMeth[H]{Удаление цепных продукций}{\label{algo-del-chains}%
+КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$, не
+содержащая $\varepsilon$"/правил.}
+{КС-грамматика
+$G'=(\Sigma, N, \mathcal P', S \in N)$, без цепных правил (продукций вида $A \to B$), такая что $L(G')=L(G)$.}
+{
+  \item Для каждого нетерминала $A \in N$ построить множество циклически
+  достижимых из $A$ нетерминалов $C(A)$, используя процедуру:
+  \begin{codebox}
+  \li   $C(A) \gets \{ A \}$
+  \li   \While $\exists D \to E \in \mathcal P$, такая что $D \in C(A)$
+  \zi   \Do
+        $C(A) \hookleftarrow E$
+        \End
+  \end{codebox}
+  \item Выполнить следующую процедуру:
+  \begin{codebox}
+  \zi   \For $A \in N$
+  \zi   \Do \For $B \to \alpha \in \mathcal P$
+  \zi       \Do \If $B \in C(A)$
+  \zi           \Then $\mathcal P \hookleftarrow A \to \alpha$
+                \End
+            \End
+        \End
+  \end{codebox}
+  \item Удалить из $\mathcal P$ все цепные правила, обозначить
+  получившееся множество правил $\mathcal P'$ и подать на выход алгоритма
+  грамматику $G' = (N, \Sigma, \mathcal P', S)$.
+}
+
+\begin{myremark}[о введении новых нетерминалов в алгоритме~\ref{to-cnf}]
+Отметим, что на каждой итерации цикла шага~4, если
+есть необходимость ввести новые не\-тер\-ми\-на\-лы, то они должны отличаться не только
+от тех, которые присутствовали в грамматике до начала этого цикла, но и от тех,
+которые были введены на предыдущих итерациях этого цикла. Таким образом, одного
+комплекта букв $\{C_i\}$ для выполнения цикла может не хватить. Для борьбы с
+нехваткой букв можно вводить нетерминалы, помеченные частями исходного слова
+$B_1\ldots B_n$, которое «разбивается на слоги». Например, вместо набора
+$\{C_i\}_{i=1}^{n-2}$ можно использовать набор $\{ \langle B_{i+1}\ldots B_n
+\rangle \}_{i=1}^{n-2}$, где для каждого $i$ выражение $\langle B_{i+1}\ldots B_n \rangle$
+понимается как \emph{один новый} нетерминал. Аналогично можно поступать на
+шаге~3, добавляя для рассматриваемого терминала $a$ новый
+нетерминал $\langle a \rangle$, а не $A'$.
+\end{myremark}
+
+\Algo{Приведение к нормальной форме Хомского}{\label{to-cnf}%
+КС-грамматика $G=(\Sigma, N, \mathcal P, S \in N)$, не
+содержащая $\varepsilon$"/правил.}
+{КС-грамматика
+$G'=(\Sigma', N', \mathcal P', S \in N)$ в НФХ, такая что $L(G')=L(G) \setminus
+\{ \varepsilon \}$ или сообщение о пустоте языка грамматики.}
+{«Разбиение слов на слоги».}
+{
+    \item Последовательно воспользоваться
+    алгоритмами~\ref{algo-del-eps} и \ref{algo-del-chains}, полученную
+    грамматику обозначить $G'' = (N, \Sigma, \mathcal P'', S)$.
+    \item Применить к $G''$ алгоритм~\ref{algo-del-useless}. Если получен ответ
+    $L(G'')=\es$, остановить алгоритм и подать на выход сигнал о пустоте языка
+    исходной грамматики. Иначе получена грамматика $G' = (N', \Sigma',
+    \mathcal P', S)$.
+    \item\label{process-terminals}К $G'$ применить следующую процедуру:
+    \begin{codebox}
+    \zi \For $a \in \Sigma$
+    \zi \Do
+            \If $\exists A \to X_1 \ldots X_n \in \mathcal P''$, такая что
+            $n > 1 \wedge \exists i\: X_i = a$
+    \zi     \Then
+    \li     добавить в $N$ \emph{новый} нетерминал $A'$
+    \li     заменить $a$ на $A'$ в продукциях с правой частью длиннее 1
+    \li     $\mathcal P'' \hookleftarrow A' \to a$
+            \End
+        \End
+    \end{codebox}
+    \item\label{breaking-words}К $G'$ применить следующую процедуру:
+    \begin{codebox}
+    \zi \For $A \to B_1 B_2 \ldots B_n \in \mathcal P'$,
+        где $n > 2$, $B_i \in N$
+    \zi \Do
+    \li     добавить в $N$ \emph{новые} нетерминалы $C_1, \ldots C_{n-2}$
+    \li     $\mathcal P' \hookleftarrow
+            \{ A \to B_1C_1\} \cup \{ C_i \to B_{i+1} C_{i+1} \}_{i=1}^{n-3}
+            \cup \{ C_{n-2} \to B_{n-1}B_n \}$
+    \li     удалить $A \to B_1 B_2 \ldots B_n$ из $\mathcal P'$
+        \End
+    \end{codebox}
+    Подать $G'$ на выход алгоритма.
+}
+
+\Algo{Решение проблемы принадлежности для КС"/языков, CYK-алгоритм}
+{\label{cyk}Грамматика $G=(\Sigma, N, \mathcal P, S \in N)$ в НФХ,
+слово $w = w_1 \ldots w_n \in \Sigma^*$.}
+{Истина, если $w \in L(G)$, ложь  в противном случае.}
+{Последовательное определение нетерминалов, выводящих
+всевозможные подстроки $w$ всё большей длины.}
+{
+\item Построить множества $N_{ij}$, используя процедуру:
+\begin{codebox}
+\zi\For $i \gets 1$ \kw{to} $n$
+\zi     \Do
+        $N_{ii} \gets \{ A \in N \mid A \to w_i \in \mathcal P  \}$
+        \Comment Подстроки $w$ длины $1$
+        \End
+\zi\For $s \gets 2$ \kw{to} $n$ \Comment Цикл по длине подстроки
+\zi     \Do
+        \For $i \gets 1$ \kw{to} $n - s + 1$ \Comment Цикл по месту начала подстроки
+\zi         $j \gets i + s - 1$
+            \Comment Позиция конца подстроки с началом в $w_i$ длины $s$
+\zi         $N_{ij} \gets \{ A \in N \mid A \to BC \in \mathcal P; \;
+                \exists k \in [i, j-1]_{\mathbb Z} \colon B \in N_{ik}, \;
+                C \in N_{k+1 j} \} $
+        \End
+\end{codebox}
+
+\item
+Если $S \in N_{1n}$, то подать на выход алгоритма «да», иначе — «нет».
+}
+
+\begin{myremark}[о табличной форме алгоритма~\ref{cyk}]
+Алгоритм удобно выполнять, заполняя таблицу с $N_{ij}$ в ячейках. Ячейки таблицы
+расположены в системе координат $(i,s)$, в позиции $(i,s)$ находится множество
+$N_{i, i+s-1}$.
+\end{myremark}

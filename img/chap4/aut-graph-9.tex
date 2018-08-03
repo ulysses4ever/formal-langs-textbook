@@ -1,0 +1,30 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (S) [right=.7cm of init] {$S$};
+    \node[state] (S_1) [right of=S] {$S_1$};
+    \node[state] (T) [right of=S_1] {$T$};
+    \node[state] (T_2) [right of=T] {$T_2$};
+    \node[state] (T_3) [above of=T] {$T_3$};
+    \node[state] (T_1) [above of=S_1] {$T_1$};
+	\node[state, accepting] (f) [right of=T_2] {$f$};
+
+	\path[->]
+    	(init) edge (S)
+		(S) edge [loop above] node[right] {$1$} (S)
+		(S) edge node[above] {$0$} (S_1)
+		(S_1) edge node[above] {$1$} (T)
+		(T) edge node[above] {$0$} (T_2)
+		(T_2) edge node[above] {$1$} (f)
+		(T) edge[bend right] node[below] {$\eps$} (f)
+    (T_2) edge node[right] {$0$} (T_3)
+    (T_3) edge  node {$0$} (T)
+    (T) edge node[right] {$1$} (T_1)
+    (T_1) edge node[left] {$1$} (S)
+    (S) edge [bend right, in=230] node[below] {$\eps$} (f);
+\end{tikzpicture}
+\caption{Граф переходов $\eps$-НКА из примера~\ref{ex-pl-to-nka}}
+\label{aut-graph-9}
+\end{figure}
+

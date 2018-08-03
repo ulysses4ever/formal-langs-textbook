@@ -1,0 +1,22 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {$p$};
+    \node[state] (q) [right of=p] {$q$};
+	\node[state, accepting] (r) [below of=p] {$r$};
+
+	\path[->]
+    	(init) edge (p)
+		(p) edge [loop above] node {$a$} (p)
+		(p) edge [bend left] node[right] {$b$} (q)
+        (q) edge [loop above] node {$a$} (q)
+        (q) edge node {$\eps$} (p)
+        (q) edge [bend left] node[right] {$b$} (r)
+        (r) edge node {$\eps$} (q)
+        (r) edge node {$c$} (p)
+        (p) edge [bend right] node[left] {$c$} (r);
+\end{tikzpicture}
+\caption{Граф переходов $\eps$-НКА из примера~\ref{example-reduceENKAtoDKA}}
+\label{aut-graph-6}
+\end{figure}

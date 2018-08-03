@@ -1,0 +1,31 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init)  at (0,0) {};
+	\node[state] (A) [right=.7cm of init] {$A$};
+    \node[state] (B) at (0,-7) {$B$};
+    \node[state] (G) at (3,-3) {$G$};
+	\node[state, accepting] (D) at (9,0) {$D$};
+	\node[state] (F) at (5,-4) {$F$};
+	\node[state] (C) at (7,-3) {$C$};
+	\node[state] (E) at (9,-7) {$E$};
+    
+	\path[->]
+    	(init) edge (A)
+        (A) edge node {$a$} (B)
+        (A) edge node {$c$} (D)
+        (A) edge node {$b$} (C)
+        (B) edge node {$b$} (F)
+        (B) edge node {$c$} (G)
+        (B) edge node {$a$} (E)
+				(C) edge node {$b$} (F)
+				(C) edge node {$c$} (D)
+				(E) edge [loop below] node {$a$} (E)
+				(E) edge node {$c$} (D)
+				(E) edge node {$b$} (C)
+				(F) edge node {$c$} (G)
+        (F) edge [bend left] node {$b$} (C);
+\end{tikzpicture}
+\caption{ДКА из примера 5.1.4, распознающий язык  $L_1 \cap \bar L_2$}
+\label{aut-graph-19}
+\end{figure}

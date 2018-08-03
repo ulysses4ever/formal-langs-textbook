@@ -1,0 +1,25 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (q_1) [right=.7cm of init] {$q_1$};
+    \node[state] (q_2) [right of=q_1] {$q_2$};
+	\node[state] (q_4) [below of=q_2] {$q_4$};
+    \node[state] (q_5) [right of=q_4] {$q_5$};
+    \node[state, accepting] (q_7) [right of=q_5] {$q_7$};
+    \node[state] (q_3) [right of=q_2] {$q_3$};
+    \node[state] (q_6) [right of=q_3] {$q_6$};
+
+	\path[->]
+    	(init) edge (q_1)
+        (q_1) edge node {$\eps$} (q_2)
+		(q_1) edge node {$\eps$} (q_4)
+        (q_2) edge node {$\eps$} (q_3)
+        (q_3) edge node {$\eps$} (q_6)
+        (q_4) edge node {$a$} (q_5)
+        (q_5) edge node {$b$} (q_6)
+        (q_5) edge node {$\eps$} (q_7);
+\end{tikzpicture}
+\caption{$\eps$-НКА из примера~\ref{example-413}}
+\label{aut-graph-5}
+\end{figure}

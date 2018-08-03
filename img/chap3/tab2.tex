@@ -1,0 +1,32 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{lllll}
+\toprule
+%
+\multicolumn{2}{c}{\multirow{2}{*}{\Large $\delta$}}
+	& \multicolumn{3}{c}{\text{Вход}} \\
+%
+\cmidrule(rl){3-5}
+%
+\multicolumn{2}{c}{}
+	& \multicolumn{1}{c}{1}
+    & \multicolumn{1}{c}{2}
+    & \multicolumn{1}{c}{3} \\
+%
+\midrule
+%
+\multirow{5}{*}{Состояние}
+    & $q_0$ & \{$q_0;q_1$\} & \{$q_0;q_2$\} & \{$q_0;q_3$\} \\
+    %
+    & $q_1$ & \{$q_1;q_f$\} & \{$q_1$\}     & \{$q_1$\}     \\
+    %
+    & $q_2$ & \{$q_2$\}     & \{$q_2;q_f$\} & \{$q_2$\}     \\
+    %
+    & $q_3$ & \{$q_3$\}     & \{$q_3$\}     & \{$q_3;q_f$\} \\
+    %
+    & $q_f$ & $\es$         & $\es$         & $\es$         \\
+\bottomrule
+\end{tabular}
+\caption{Функция перехода $\delta$ для автомата из примера~\ref{aut-312}.}
+\label{tab2}
+\end{table}

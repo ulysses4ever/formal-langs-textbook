@@ -1,0 +1,26 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+	\begin{scope}
+	\node[state] (p1) [right of=p] {};
+	\node[state] (p2) [right of=p1] {};
+	\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p1.south west)+(-2ex,-2ex)$) rectangle ($(p2.north east)+(2ex,2ex)$) node[pos=.6] {$R$}
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}	
+    \node[state, accepting] (f) [right of=p2] {};
+	\path[->]
+    	(init) edge (p)
+      (p) edge node {$\eps$} (p1)
+      (p2) edge node {$\eps$} (f)
+      (p) edge [bend left=40] node [above] {$\eps$} (f)
+      (p2) edge [bend left] node [above] {$\eps$} (p1);
+\end{tikzpicture}
+\caption{Схема автомата, распознающего итерацию языка}
+\label{ra-struct-2_c}
+\end{figure}

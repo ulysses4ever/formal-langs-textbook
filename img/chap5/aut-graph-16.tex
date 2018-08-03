@@ -1,0 +1,21 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state, accepting] (q_0) [right=.7cm of init] {$q_0$};
+    \node[state, accepting] (q_1) [right of=q_0] {$q_1$};
+	\node[state] (q_f) [right of=q_1] {$q_f$};
+    \node[state, accepting] (q_E) [below of=q_1] {$q_E$};
+    
+	\path[->]
+    	(init) edge (q_0)
+        (q_0) edge node {$0$} (q_1)
+        (q_0) edge node {$1$} (q_E)
+        (q_1) edge [loop above] node {$1$} (q_1)
+        (q_1) edge node {$0$} (q_f)
+		(q_f) edge node {$0, 1$} (q_E)
+		(q_E) edge [loop below] node {$0, 1$} (q_E);
+\end{tikzpicture}
+\caption{ДКА из примера 5.1.2, распознающий язык  $\bar L = \eps + 1(0 + 1)^* + 01^*(\eps + 0(0+1)(0+1)^*)$}
+\label{aut-graph-16}
+\end{figure}

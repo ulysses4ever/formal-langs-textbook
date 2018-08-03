@@ -1,0 +1,21 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (q_0) [right=.7cm of init] {$q_0$};
+    \node[state] (q_1) [right of=q_0] {$q_1$};
+	\node[state, accepting] (q_f) [right of=q_1] {$q_f$};
+    \node[state] (q_E) [below of=q_1] {$q_E$};
+    
+	\path[->]
+    	(init) edge (q_0)
+        (q_0) edge node {$0$} (q_1)
+        (q_0) edge node {$1$} (q_E)
+        (q_1) edge [loop above] node {$1$} (q_1)
+        (q_1) edge node {$0$} (q_f)
+		(q_f) edge node {$0, 1$} (q_E)
+		(q_E) edge [loop below] node {$0, 1$} (q_E);
+\end{tikzpicture}
+\caption{Полностью определённый ДКА из примера 5.1.2, распознающий язык $L = 01^*0$}
+\label{aut-graph-15}
+\end{figure}

@@ -1,0 +1,14 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p, accepting) [right=.7cm of init] {};
+	
+	\path[->]
+    	(init) edge (p)
+			(p) edge[loop above] node[above] {$R$} (p);
+\end{tikzpicture}
+\caption{Обобщенный автомат с одним состоянием}
+\label{excl-aut-2}
+\end{figure}
+

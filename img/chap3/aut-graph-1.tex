@@ -1,0 +1,19 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {$P$};
+	\node[state] (q) [right of=p] {$q$};
+	\node[state,accepting] (r) [right of=q] {$r$};
+
+	\path[->]
+    	(init) edge (p)
+		(p) edge [loop above] node {$1$} (p)
+		(p) edge node {$0$} (q)
+		(q) edge [bend right] node[above] {$1$} (p)
+		(q) edge node {$0$} (r)
+        (r) edge [loop above] node {$0, 1$} (r);
+\end{tikzpicture}
+\caption{Граф переходов автомата из примера~\ref{example-chap3-DKA1}}
+\label{aut-graph-1}
+\end{figure}

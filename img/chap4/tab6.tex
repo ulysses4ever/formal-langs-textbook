@@ -1,0 +1,28 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{llllll}
+\toprule
+%
+\multicolumn{2}{c}{\multirow{2}{*}{\Large $\delta$}}
+	& \multicolumn{3}{c}{\text{Вход}} \\
+%
+\cmidrule(rl){3-5}
+%
+\multicolumn{2}{c}{}
+    & \multicolumn{1}{c}{\{a\}}
+    & \multicolumn{1}{c}{\{b\}}
+    & \multicolumn{1}{c}{\{c\}} \\
+%
+\midrule
+%
+\multirow{5}{*}{Состояние}
+    & $\to \{p\}$ & $\{p\}$  		& \{$q;p$\} 		& \{$r;q;p$\}  	\\
+    %
+    & $\{q;p\}$ & \{$q;p$\} 	& \{$r;q;p$\} 		& \{$r;q;p$\} 	     \\
+    %
+    & $\boxed{\{r;q;p\}}$ & \{$r;q;p$\} 	& \{$r;q;p$\} 		& \{$r;q;p$\} 	\\
+\bottomrule
+\end{tabular}
+\caption{Функция перехода $\delta$ для ДКА из примера~\ref{example-reduceENKAtoDKA}}
+\label{tab6}
+\end{table}

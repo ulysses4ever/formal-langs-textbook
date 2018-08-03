@@ -1,0 +1,132 @@
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{paratype}  % шрифты фирмы Паратайп
+\usepackage{multirow}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{subcaption}
+\usetikzlibrary{automata,shapes,arrows,positioning,calc,chains, backgrounds}
+\usepackage{calc}
+\usepackage[many]{tcolorbox} % рамки
+
+\frenchspacing % Отключение лишних отступов после точек
+\KOMAoptions{%
+%    footinclude=true, % по умолчанию false
+%    headinclude=true, % по умолчанию false
+    BCOR=3em            % величина отступа под переплёт?
+}
+\let\cleardoublepage\clearpage % отключаем правило: глава с нечётной страницы
+
+% абзацный отступ
+\usepackage{indentfirst}
+\newlength\MyIndent
+\setlength\MyIndent{1cm}
+\setlength{\parindent}{\MyIndent}
+
+% Списки
+\usepackage {enumitem}
+
+\setlist[itemize,1]{label=-}
+\setlist %
+{ %
+  leftmargin = \parindent, itemsep=0ex, topsep=1ex
+} %
+\setenumerate[1]{label=\textup{\arabic*)}}
+
+\makeatletter
+\AddEnumerateCounter{\Asbuk}{\@Asbuk}{Ы}
+\AddEnumerateCounter{\asbuk}{\@asbuk}{ы}
+\makeatother
+
+% Списки (i), (ii), ...
+%\usepackage{paralist}
+
+% Подписи к таблицам и рисункам
+%\usepackage{caption}
+\renewcommand*{\captionformat}{~}
+%\renewcommand{\thetable}{\thechapter.\arabic{table}}
+%\captionsetup[table]{labelsep=space}
+
+% Колонтитулы
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\chead{\headmark}
+\ohead{\pagemark}
+\renewcommand{\headfont}{\small\itshape}
+% линейка для верхнего колонтитула
+\setheadsepline{.4pt}
+
+% Заголовок главы
+\newcommand{\SuperFont}{\Large\normalfont\sffamily}
+\newcommand{\CentSuperFont}{\centering\SuperFont}
+
+\KOMAoptions{%
+    headings=normal,    % размеры заголовков поменьше стандартных
+    chapterprefix=true, % печатать слово Глава
+    appendixprefix=false, % печатать слово Глава
+    numbers=endperiod  % если хочется точек после номеров разделов
+}
+
+\usepackage{fncychap}
+\ChNameVar{\SuperFont}
+\ChNumVar{\CentSuperFont}
+\ChTitleVar{\CentSuperFont}
+\ChNameUpperCase
+\ChTitleUpperCase
+
+% заголовок (под)раздела с абзацного отступа
+\addtokomafont{sectioning}{\hspace{\MyIndent}\Large} % хак для старой Комы
+% новый вариант:
+% \RedeclareSectionCommands[indent=\the\parindent]{section,subsection}
+% применить, когда все  обновят Кому
+
+% а также с символом параграфа
+\renewcommand{\othersectionlevelsformat}[3]{%
+\S\ #3\autodot\enskip}
+
+\renewcommand{\baselinestretch}{1.35} % Интервал полуторный
+
+% Оглавление (в т.ч расхлёбываем проблемы хака выше)
+\usepackage{tocloft}
+
+\renewcommand{\cfttoctitlefont}{\hfil\SuperFont\MakeUppercase}
+
+\renewcommand{\cftchappresnum}{\normalfont{}Глава }
+\addtolength{\cftchapnumwidth}{\widthof{\normalfont{}Глава }}
+\renewcommand{\cftchapfont}{\bfseries}%\sffamily}
+\renewcommand{\cftchappagefont}{}%\bfseries\sffamily}
+\renewcommand{\cftchapaftersnum}{.}
+%\renewcommand*{\cftappendixname}{\appendixname~}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsecpresnum}{\S\ }
+\addtolength{\cftsecnumwidth}{\widthof{\S\ }}
+\setlength{\cftsecindent}{\cftsecindent - .125cm}
+
+% нумерация уравнений: глава.раздел.номер
+\numberwithin{equation}{section}
+
+% списки в несколько столбцов
+\usepackage{multicol}
+
+% красивые таблицы
+\usepackage{booktabs}
+
+% ----------------------------------------------------------------
+% Настройка переносов и разрывов страниц
+
+\binoppenalty = 10000      % Запрет переносов строк в формулах
+\relpenalty = 10000        %
+
+\sloppy                    % Не выходить за границы бокса
+%\tolerance = 400          % или более точно
+\clubpenalty = 10000       % Запрет разрывов страниц после первой
+\widowpenalty = 10000      % и перед предпоследней строкой абзаца
+
+% ----------------------------
+
+\KOMAoptions{DIV=14}    % Пересчёт геометрии

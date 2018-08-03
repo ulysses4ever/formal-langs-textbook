@@ -1,0 +1,37 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+	\begin{scope}
+  \node[state] (p1) [below right of=p] {};
+	\node[state] (q1) [right of=p1] {};
+	\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p1.south west)+(-2ex,-2ex)$) rectangle ($(q1.north east)+(2ex,2ex)$) node[pos=.6] {$S$}
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}
+	\node[state, accepting] (f) [right=3.9cm of p] {};
+	\begin{scope}
+	\node[state] (p2) [above right of=p] {};
+	\node[state] (q2) [right of=p2] {};
+  			\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p2.south west)+(-2ex,-2ex)$) rectangle ($(q2.north east)+(2ex,2ex)$) node[pos=.6] {$R$} 
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;
+\end{pgfonlayer}
+\end{scope}
+	
+	\path[->]
+    	(init) edge (p)
+			(p) edge node {$\eps$} (p1)
+			(p) edge node {$\eps$} (p2)
+			(q1) edge node {$\eps$} (f)
+			(q2) edge node {$\eps$} (f);	
+\end{tikzpicture}
+\caption{Схема автомата, распознающего объединение двух языков}
+\label{ra-struct-2_a}
+\end{figure}

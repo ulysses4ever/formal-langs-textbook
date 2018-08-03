@@ -1,0 +1,68 @@
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.3\textwidth} 
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+\begin{scope}
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+    \node[state, accepting] (f) [right of=p] {};
+	\path[->]
+    	(init) edge (p);
+			\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p.south west)+(-2ex,-2ex)$) rectangle ($(f.north east)+(2ex,2ex)$)
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}	
+\end{tikzpicture}
+\subcaption{}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth} 
+\centering
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+\begin{scope}
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+    \node[state, accepting] (f) [right of=p] {};
+	\path[->]
+    	(init) edge (p)
+      (p) edge node {$\eps$} (f);
+			
+			\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p.south west)+(-2ex,-2ex)$) rectangle ($(f.north east)+(2ex,2ex)$)
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}	
+\end{tikzpicture}
+\subcaption{}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+\centering 
+\begin{tikzpicture}[node distance=2cm,>=stealth',auto,every state/.style={thick}] 
+\begin{scope}
+	\node (init) {};
+	\node[state] (p) [right=.7cm of init] {};
+    \node[state, accepting] (f) [right of=p] {};
+	\path[->]
+    	(init) edge (p)
+      (p) edge node {$a$} (f);
+			
+			\begin{pgfonlayer}{background} 
+ \draw[rounded corners, thick] ($(p.south west)+(-2ex,-2ex)$) rectangle ($(f.north east)+(2ex,2ex)$)
+             coordinate  [pos=0.5] (ce) 
+             coordinate  [pos=1] (ne) 
+             (ce |- ne)  coordinate (no) ;  
+\end{pgfonlayer}
+\end{scope}	
+\end{tikzpicture}
+\subcaption{}
+\end{minipage}
+\caption{Схемы автоматов, распознающих элементарные языки}
+\label{ra-struct-1}
+\end{figure}

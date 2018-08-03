@@ -1,0 +1,35 @@
+\begin{table}[H]
+\centering
+\begin{tabular}{llllll}
+\toprule
+%
+\multicolumn{2}{c}{\multirow{2}{*}{\Large $\delta$}}
+	& \multicolumn{4}{c}{\text{Вход}} \\
+%
+\cmidrule(rl){3-6}
+%
+\multicolumn{2}{c}{}
+	& \multicolumn{1}{c}{$\eps$}
+    & \multicolumn{1}{c}{\{+;-\}}
+    & \multicolumn{1}{c}{\{.\}}
+    & \multicolumn{1}{c}{\{0,1,..,9\}} \\
+%
+\midrule
+%
+\multirow{5}{*}{Состояние}
+    & $\to q_0$ & \{$q_1$\} 	& \{$q_1$\} 	& $\es$ 		& $\es$ \\
+    %
+    & $q_1$ & $\es$ 		& $\es$ 		& \{$q_2$\}     & \{$q_1;q_4$\}     \\
+    %
+    & $q_2$ & $\es$ 		& $\es$     	& $\es$ 		& \{$q_3$\}     \\
+    %
+    & $q_3$ & \{$q_3$\} 	& $\es$     	& $\es$     	& \{$q_3$\} \\
+    %
+    & $q_4$ & $\es$			& $\es$         & \{$q_3$\}     & $\es$         \\
+    %
+    & $\boxed{q_5}$ & $\es$ 		& $\es$         & $\es$         & $\es$         \\
+\bottomrule
+\end{tabular}
+\caption{Функция перехода $\delta$ для автомата, распознающего десятичные числа}
+\label{tab4}
+\end{table}

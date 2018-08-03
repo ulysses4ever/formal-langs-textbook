@@ -1,0 +1,21 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (q_f) [right=.7cm of init] {$q_f$};
+    \node[state] (q_2) [right of=q_f] {$q_2$};
+	\node[state] (q_1) [right of=q_2] {$q_1$};
+    \node[state, accepting] (q_0) [right of=q_1] {$q_0$};
+    
+	\path[->]
+    	(init) edge (q_f)
+        (q_1) edge node {$0$} (q_0)
+        (q_1) edge [loop below] node {$1$} (q_1)
+        (q_2) edge [loop below] node {$0$} (q_2)
+		(q_2) edge node {$0$} (q_1)
+		(q_f) edge[bend left] node {$\eps$} (q_1)
+		(q_f) edge node {$\eps$} (q_2);
+\end{tikzpicture}
+\caption{ДКА из примера 5.1.1, распознающий язык $L^R = 0^*1^*0$}
+\label{aut-graph-13}
+\end{figure}

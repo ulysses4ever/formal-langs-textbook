@@ -1,0 +1,25 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
+	\node (init) {};
+	\node[state] (q_0) [right=.7cm of init] {$q_0$};
+    \node[state] (q_1) [right of=q_0] {$q_1$};
+	\node[state] (q_2) [right of=q_1] {$q_2$};
+    \node[state] (q_3) [right of=q_2] {$q_3$};
+    \node[state] (q_4) [below of=q_2] {$q_4$};
+    \node[state,accepting] (q_5) [right of=q_3] {$q_5$};
+
+	\path[->]
+    	(init) edge (q_0)
+        (q_0) edge node {$\eps, +, -$} (q_1)
+		(q_1) edge [loop above] node {$0,1,..,9$} (q_1)
+        (q_1) edge node {$.$} (q_2)
+        (q_1) edge node {$0,1,..,9$} (q_4)
+        (q_2) edge node {$0,1,..,9$} (q_3)
+        (q_4) edge node {$.$} (q_3)
+        (q_3) edge [loop above] node {$0,1,..,9$} (q_3)
+        (q_3) edge node {$\eps$} (q_5);
+\end{tikzpicture}
+\caption{$\eps$-НКА, допускающий десятичные числа}
+\label{aut-graph-4}
+\end{figure}
