@@ -14,11 +14,12 @@
 \usepackage[many]{tcolorbox} % рамки
 
 \frenchspacing % Отключение лишних отступов после точек
-\KOMAoptions{%
+%\KOMAoptions{%
 %    footinclude=true, % по умолчанию false
 %    headinclude=true, % по умолчанию false
-    BCOR=3em            % величина отступа под переплёт?
-}
+%    BCOR=0em            % величина отступа под переплёт?
+%}
+%\areaset[BCOR]{Width}{Height}
 \let\cleardoublepage\clearpage % отключаем правило: глава с нечётной страницы
 
 % абзацный отступ
@@ -46,10 +47,11 @@
 %\usepackage{paralist}
 
 % Подписи к таблицам и рисункам
-%\usepackage{caption}
+\usepackage[format=plain]{caption}
 \renewcommand*{\captionformat}{~}
-%\renewcommand{\thetable}{\thechapter.\arabic{table}}
-%\captionsetup[table]{labelsep=space}
+% \renewcommand{\thetable}{\thechapter.\arabic{table}}
+\captionsetup[figure]{labelfont=bf}
+\captionsetup[table]{labelfont=bf,font=bf}
 
 % Колонтитулы
 \usepackage{scrpage2}
@@ -129,4 +131,9 @@
 
 % ----------------------------
 
-\KOMAoptions{DIV=14}    % Пересчёт геометрии
+% \KOMAoptions{DIV=14}    % Пересчёт геометрии
+% геометрия страницы
+\usepackage[hmargin=2.1cm,vmargin=2.8cm,includehead=true,includefoot=true]{geometry}
+
+% Разрешить разрыв страницы внутри многострочных уравнений
+\allowdisplaybreaks
