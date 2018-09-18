@@ -235,10 +235,17 @@ $\emph{Ц})$.
 \end{array}
 \end{equation}
 Пример вывода в этой грамматике:
-\[
-	E \To E+T \To T+T \To F+T \To a+T \To a+T*F \To a+F*F
-    	\To a+a*F \To a+a*a.
-\]
+\begin{multline}
+	E \To
+    E+T \To 
+    T+T \To \\
+    F+T \To 
+    a+T \To 
+    a+T*F \To 
+    a+F*F \To \\
+    a+a*F \To 
+    a+a*a.
+\end{multline}
 Можно доказать, что язык $L(G_0)$ --- это множество арифметических выражений, построенных из пяти символов $+$, $*$, $a$, $($, $)$.
 \end{myexample}
 
@@ -255,9 +262,15 @@ $\emph{Ц})$.
 \end{array}
 \end{equation}
 Пример вывода в этой грамматике:
-\[
-	S \To aSBC \To aabCBC \To aabBCC \To aabbCC \To aabbcC \To aabbcc.
-\]
+\begin{multline}
+	S \To 
+    aSBC \To
+    aabCBC \To 
+    aabBCC \To \\
+    aabbCC \To 
+    aabbcC \To
+    aabbcc.
+\end{multline}
 можно доказать, что эта грамматика порождает язык $\{a^nb^nc^n\mid n \ge1\}$.
 \end{myexample}
 
@@ -276,9 +289,17 @@ $\emph{Ц})$.
 	D  &\to \eps.
 \end{align*}
 Пример вывода в этой грамматике:
-\[
-	S \Rightarrow CD \To aCAD \To abCBAD \To abBAD \To abBaD \To abaBD \To ababD \To abab.
-\]
+\begin{multline}
+	S \To
+    CD \To 
+    aCAD \To
+    abCBAD \To \\
+    abBAD \To 
+    abBaD \To 
+    abaBD \To 
+    ababD \To 
+    abab.
+\end{multline}
 Покажем, что $L(G)=\{\omega\omega\mid\omega\in\{a,b\}^*\}$, т.е. язык $L(G)$ состоит из слов четной длины, составленных из букв $a$ и $b$, причем первая половина каждого слова совпадает со второй половиной.
 
 Сначала докажем, что $\{\omega\omega\mid\omega\in\{a,b\}^*\}\subseteq L(G)$. Для этого надо проверить, что каждое слово вида $\omega\omega$ можно вывести из $S$. Непосредственно проверяется, что в $G$ возможны следующие выводы:
@@ -310,14 +331,14 @@ $\emph{Ц})$.
     h\colon\{a;b;A;B\}^* \to \{a;b;A;B\}^*,
 \]
 удовлетворяющие условиям:
-\[
-    g(a)=a,  \quad
-    g(b)=b, \quad
-    g(A)=g(B)=\eps,  \quad
-    h(A)=A,  \quad
-    h(B)=B,  \quad
-    h(a)=h(b)=\eps.
-\]
+\begin{align*}
+    g(a)&=a, &
+    g(b)&=b,  &
+    g(A)&=g(B)=\eps, \\
+    h(A)&=A,  &
+    h(B)&=B,  &
+    h(a)&=h(b)=\eps.
+\end{align*}
 Применяя метод математической индукции по параметру $m$ и анализируя множество продукций $P$, легко доказать следующее вспомогательное утверждение: если $S \To^m \alpha$, то $\alpha$ представимо в виде
 \[
     c_1c_2\ldots c_nU\beta V,

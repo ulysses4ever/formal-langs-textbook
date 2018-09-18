@@ -68,8 +68,13 @@
 \newlist{algoenum}{enumerate}{3}
 \setlist[algoenum]{%
      label=\textit{Шаг~\arabic*.}%
+    ,itemindent=\parindent
     %,before=\raggedright%{}
-    ,leftmargin=\parindent+\widthof{\textit{Шаг~9.}}+\labelsep%{}
+    %,labelindent=\parindent%
+    %,labelwidth=\widthof{\textit{Шаг~9.}}+\labelsep%{}
+    %,labelwidth=0pt%
+    ,leftmargin=!%
+    ,wide=\parindent
     ,topsep=0pt
 }
 
@@ -77,7 +82,9 @@
 \usepackage{float}
 \floatstyle{ruled}
 
- \makeatletter
+\newcommand{\AlgoFontSize}{\footnotesize}
+
+\makeatletter
 \patchcmd{\fs@ruled}
  {\def\@fs@post{\kern2pt\hrule\relax}}
  {\def\@fs@post{\kern2pt\hrule height 0pt depth .8pt\relax}}
@@ -86,12 +93,11 @@
 \renewcommand\floatc@ruled[2]{{\@fs@cfont #1.} #2\par}
 \makeatother
 
-\floatname{AlgoEnv}{Алгоритм}
+\floatname{AlgoEnv}{\AlgoFontSize{}Алгоритм}
 \newfloat{AlgoEnv}{htbp}{loa}[section]
 
-
-
 \newcommand{\AlgoPre}[3]{%
+
 \begin{description}
     \item [Вход:]
 #1
@@ -123,7 +129,8 @@
 % #1 - placement (optional), #2 - name, #3-5 - preamble (In/Out/Method), 6 - body
 \newcommand{\Algo}[6][t]{%
 \begin{AlgoEnv}[#1]
-\caption{#2}
+\AlgoFontSize
+\caption{\AlgoFontSize{}#2}
 \AlgoPre{#3}{#4}{#5}
 \vspace{-5mm}
 \varhrulefill[.2pt]
@@ -134,7 +141,8 @@
 % #1 - placement (optional), #2 - name, #3-4 - preamble (In/Out), 5 - body
 \newcommand{\AlgoNoMeth}[5][t]{%
 \begin{AlgoEnv}[#1]
-\caption{#2}
+\AlgoFontSize
+\caption{\AlgoFontSize #2}
 \AlgoPreNoMeth{#3}{#4}
 \vspace{-5mm}
 \varhrulefill[.2pt]
@@ -145,7 +153,8 @@
 % #1 - placement (optional), #2 - name, #3-4 - preamble (In/Out), 5 - body
 \newcommand{\AlgoPseudoCode}[5][t]{%
 \begin{AlgoEnv}[#1]
-\caption{#2}
+\AlgoFontSize
+\caption{\AlgoFontSize #2}
 \AlgoPreNoMeth{#3}{#4}
 \vspace{-5mm}
 \varhrulefill[.2pt]
@@ -155,3 +164,7 @@
 \end{AlgoEnv}
 }
 
+\renewcommand{\topfraction}{1}
+\renewcommand{\bottomfraction}{1}
+\renewcommand{\floatpagefraction}{1}%
+\renewcommand{\textfraction}{0}%
