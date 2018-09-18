@@ -235,7 +235,7 @@ $\emph{Ц})$.
 \end{array}
 \end{equation}
 Пример вывода в этой грамматике:
-\begin{multline}
+\begin{multline*}
 	E \To
     E+T \To 
     T+T \To \\
@@ -245,7 +245,7 @@ $\emph{Ц})$.
     a+F*F \To \\
     a+a*F \To 
     a+a*a.
-\end{multline}
+\end{multline*}
 Можно доказать, что язык $L(G_0)$ --- это множество арифметических выражений, построенных из пяти символов $+$, $*$, $a$, $($, $)$.
 \end{myexample}
 
@@ -262,7 +262,7 @@ $\emph{Ц})$.
 \end{array}
 \end{equation}
 Пример вывода в этой грамматике:
-\begin{multline}
+\begin{*ne}
 	S \To 
     aSBC \To
     aabCBC \To 
@@ -270,8 +270,8 @@ $\emph{Ц})$.
     aabbCC \To 
     aabbcC \To
     aabbcc.
-\end{multline}
-можно доказать, что эта грамматика порождает язык $\{a^nb^nc^n\mid n \ge1\}$.
+\end{multline*}
+Можно доказать, что эта грамматика порождает язык $\{a^nb^nc^n\mid n \ge1\}$.
 \end{myexample}
 
 \begin{myexample}
@@ -289,7 +289,7 @@ $\emph{Ц})$.
 	D  &\to \eps.
 \end{align*}
 Пример вывода в этой грамматике:
-\begin{multline}
+\begin{multline*}
 	S \To
     CD \To 
     aCAD \To
@@ -299,7 +299,7 @@ $\emph{Ц})$.
     abaBD \To 
     ababD \To 
     abab.
-\end{multline}
+\end{multline*}
 Покажем, что $L(G)=\{\omega\omega\mid\omega\in\{a,b\}^*\}$, т.е. язык $L(G)$ состоит из слов четной длины, составленных из букв $a$ и $b$, причем первая половина каждого слова совпадает со второй половиной.
 
 Сначала докажем, что $\{\omega\omega\mid\omega\in\{a,b\}^*\}\subseteq L(G)$. Для этого надо проверить, что каждое слово вида $\omega\omega$ можно вывести из $S$. Непосредственно проверяется, что в $G$ возможны следующие выводы:

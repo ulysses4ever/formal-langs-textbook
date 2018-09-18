@@ -412,7 +412,7 @@ P' = (Q\cup\{q_\eps;q'\},\Sigma,\Gamma\cup\{Z'\},\delta',q',Z',\es),
 
     \item $\forall q\in Q$, $\forall a\in\Sigma\cup\{\eps\}$,
     $\forall Z\in\Gamma$:
-        $(r,\gamma)\in\delta(q,a,Z) \To (r,\gamma)\in\delta'(q,a,Z)$;
+        \[(r,\gamma)\in\delta(q,a,Z) \To (r,\gamma)\in\delta'(q,a,Z);\]
 
     \item $\forall q\in F$, $\forall Z\in\Gamma\cup\{Z'\}$:
         $(q_\eps,\eps)\in\delta'(q,\eps,Z)$;
@@ -424,13 +424,13 @@ P' = (Q\cup\{q_\eps;q'\},\Sigma,\Gamma\cup\{Z'\},\delta',q',Z',\es),
 Отметим, что на первом такте автомат $P'$ записывает в магазин $Z_0Z'$ и переходит в начальное состояние $q_0$ автомата $P$, a $Z'$ начинает играть роль маркера, отмечающего <<дно>> магазина.
 
 Анализ функций переходов $\delta$ и $\delta'$ показывает, что для некоторых натуральных $r$ и $n$, произвольного $q$ из $F$ и произвольных слов $Y_1, \ldots , Y_{r-1}, Y_r=Z'$ из $\Gamma^*$ последовательность тактов автомата $P'$
-\[
+\begin{multline*}
     (q',\omega,Z')
         \vdash_{P'} (q_0,\omega,Z_0,Z')
-        \vdash_{P'}^n (q,\eps,Y_1 \ldots Y_r)
+        \vdash_{P'}^n \\ (q,\eps,Y_1 \ldots Y_r)
         \vdash_{P'} (q_\eps,\eps,Y_2 \ldots Y_r)
         \vdash_{P'}^{r-1} (q_\eps,\eps,\eps)
-\]
+\end{multline*}
 осуществима тогда и только тогда, когда
 \[
     (q_0,\omega,Z_0) \vdash_P^n (q, \eps, Y_1 \ldots Y_{r-1}).

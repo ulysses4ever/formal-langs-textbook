@@ -450,14 +450,14 @@ A_i=\alpha_{i0}+\alpha_{i1}A_1+ \ldots +\alpha_{in}A_n,
 
 \begin{myproof}
 Пусть $\omega\in f(S)$. Ввиду теоремы~\ref{theorem-NNTSysReg} слово $\omega$ можно записать в виде: $\omega=\omega_1\ldots \omega_m$, где $m\ge l$ и $\omega_m\in\alpha_{j_m0}$, $\omega_k\in\alpha_{j_kj_{k+1}}$ для некоторой последовательности $j_1=1, \ldots , j_m (\in\{1;2;\ldots ;n\})$. Заметим, что коэффициенты $\alpha_{ij}$ определены таким образом, что в грамматике $G$ возможен вывод:
-\begin{multline}
+\begin{multline*}
     S \To_G 
     \omega_1A_{j_2} \To_G 
     \omega_1\omega_2A_{j_3} \To_G 
     \ldots \To_G \\
     \omega_1\omega_2\ldots \omega_{m-1}A_{j_m} \To_G 
     \omega_1\omega_2\ldots \omega_{m-1}\omega_m.
-\end{multline}
+\end{multline*}
 Это означает, что $f(S)\subseteq L(G)$. С помощью похожих рассуждений проверяется обратное вложение $L(G)\subseteq f(S)$. Напомним теперь, что алгоритм~\ref{Algo-SysEq-Solver} строит $f(S)$ как регулярный язык. Таким образом, язык $L(G)=f(S)$ --- регулярный.
 \end{myproof}
 
