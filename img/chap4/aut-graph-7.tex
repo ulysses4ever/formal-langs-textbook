@@ -3,13 +3,13 @@
 \begin{tikzpicture}[node distance=3cm,>=stealth',auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (p) [right=.7cm of init] {$\{p\}$};
-    \node[state] (qp) [right of=p] {$\{q;p\}$};
-	\node[state, accepting] (rqp) [below of=p] {$\{r;q;p\}$};
+	\node[state, accepting] (rqp) [right of=p] {$\{r;q;p\}$};
+    \node[state] (qp) [right of=rqp] {$\{q;p\}$};
 
 	\path[->]
     	(init) edge (p)
 		(p) edge [loop above] node[right] {$a$} (p)
-		(p) edge [bend left] node[above] {$b$} (qp)
+		(p) edge [bend left=50] node[above] {$b$} (qp)
         (qp) edge [loop above] node {$a$} (qp)
         (qp) edge node {$\{b;c\}$} (rqp)
         (rqp) edge [loop below] node[right] {$\{a;b;c\}$} (rqp)

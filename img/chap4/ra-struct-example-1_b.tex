@@ -1,12 +1,12 @@
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}[node distance=1.5cm,>=stealth',auto,every state/.style={thick}] 
+\begin{tikzpicture}[node distance=2.5cm,>=stealth',auto,every state/.style={thick}every node/.style={inner sep=-.4cm,minimum size=-1cm,scale=0.8},scale=0.8]] 
 	\node (init) {};
 	\node[state] (p_ext) [right=.7cm of init] {};
 	\node[state] (p) [right of=p_ext] {};
   \node[state] (p1) [above right of=p] {};
 	\node[state] (q1) [below right of=p] {};
-	\node[state] (f) [right=3.9cm of p] {};
+	\node[state] (f) [right=5cm of p] {};
 	\node[state] (f_ext) [right of=f] {};
 	\node[state] (p2) [above left of=f] {};
 	\node[state] (q2) [below left of=f] {};
@@ -21,7 +21,7 @@
 			(q2) edge node {$\eps$} (f)
 			(f) edge node {$\eps$} (f_ext)	
 			(p_ext) edge [bend left=60,in=130,out=50] node [above] {$\eps$} (f_ext)
-			(f) edge [bend left=160,in=75,out=100] node [below] {$\eps$} (p);	
+			(f) edge [in=-90,out=-90,looseness=1.5] node [below] {$\eps$} (p);	
 \end{tikzpicture}
 \caption{Автомат для регулярного выражения $(0 + 1)^*$}
 \label{ra-struct-example-1_b}

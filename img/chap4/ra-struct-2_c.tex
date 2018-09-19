@@ -4,7 +4,7 @@
 	\node (init) {};
 	\node[state] (p) [right=.7cm of init] {};
 	\begin{scope}
-	\node[state] (p1) [right of=p] {};
+	\node[state] (p1) [right=1.2cm of p] {};
 	\node[state] (p2) [right of=p1] {};
 	\begin{pgfonlayer}{background} 
  \draw[rounded corners, thick] ($(p1.south west)+(-2ex,-2ex)$) rectangle ($(p2.north east)+(2ex,2ex)$) node[pos=.6] {$R$}
@@ -13,12 +13,12 @@
              (ce |- ne)  coordinate (no) ;  
 \end{pgfonlayer}
 \end{scope}	
-    \node[state, accepting] (f) [right of=p2] {};
+    \node[state, accepting] (f) [right=1.2cm of p2] {};
 	\path[->]
     	(init) edge (p)
       (p) edge node {$\eps$} (p1)
       (p2) edge node {$\eps$} (f)
-      (p) edge [bend left=40] node [above] {$\eps$} (f)
+      (p) edge [in=90, out=90, looseness=.6] node [above] {$\eps$} (f)
       (p2) edge [bend left] node [above] {$\eps$} (p1);
 \end{tikzpicture}
 \caption{Схема автомата, распознающего итерацию языка}

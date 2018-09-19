@@ -4,7 +4,7 @@
 	\node (init) {};
 	\node[state] (p) [right=.7cm of init] {};
 	\begin{scope}
-  \node[state] (p1) [below right of=p] {};
+  \node[state] (p1) [below right=1.5cm of p] {};
 	\node[state] (q1) [right of=p1] {};
 	\begin{pgfonlayer}{background} 
  \draw[rounded corners, thick] ($(p1.south west)+(-2ex,-2ex)$) rectangle ($(q1.north east)+(2ex,2ex)$) node[pos=.6] {$S$}
@@ -13,9 +13,9 @@
              (ce |- ne)  coordinate (no) ;  
 \end{pgfonlayer}
 \end{scope}
-	\node[state, accepting] (f) [right=3.9cm of p] {};
+	\node[state, accepting] (f) [above right=1.5cm of q1] {};
 	\begin{scope}
-	\node[state] (p2) [above right of=p] {};
+	\node[state] (p2) [above right=1.5cm of p] {};
 	\node[state] (q2) [right of=p2] {};
   			\begin{pgfonlayer}{background} 
  \draw[rounded corners, thick] ($(p2.south west)+(-2ex,-2ex)$) rectangle ($(q2.north east)+(2ex,2ex)$) node[pos=.6] {$R$} 
