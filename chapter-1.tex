@@ -1,7 +1,9 @@
 \chapter{Способы задания и распознавания формальных языков}
 \label{Chapter1}
+
 \section{Алфавит и слова}
 \label{Chapter1Alphabet}
+
 Алфавитом будем называть любое множество символов. Предполагается,
 что термин <<символ>> имеет достаточно ясный интуитивный смысл и не
 нуждается в дальнейшем пояснении. Алфавит, вообще говоря, не обязан
@@ -177,14 +179,11 @@ h(h^{-1}(L))=L.
 \begin{myexample}
 \label{example11}
 Рассмотрим грамматику $G=(\{A;S\},\{0;1\},P,S)$, где $P$ состоит из продукций
-\begin{equation}
-\begin{array}{l}
-	S \to 0A1,  \\
-	S \to 01A01,\\
-	S \to 00A1, \\
+\[	S \to 0A1,  \qquad
+	S \to 01A01,\qquad
+	S \to 00A1, \qquad
 	A \to \eps.
-\end{array}
-\end{equation}
+\]
 Нетерминальными символами в этой грамматике являются буквы $A$ и $S$, терминальными --- 0 и 1, а $S$ --- начальный символ.
 \end{myexample}
 
@@ -204,13 +203,11 @@ h(h^{-1}(L))=L.
 
 \begin{myproblem}
 Рассмотрим грамматику $G=(\{A;S\},\{0;1\},P,S)$, где $P$ состоит из продукций:
-\begin{equation}
-\begin{array}{l}
-    S  \to 0A1,\\
-    0A \to 00A1,\\
+\[
+    S  \to 0A1,\qquad
+    0A \to 00A1,\qquad
     A  \to \eps.
-\end{array}
-\end{equation}
+\]
 Доказать, что $L(G)=\{0^n1^n\mid n\ge 1\}$.
 \end{myproblem}
 
@@ -227,13 +224,10 @@ $\emph{Ц})$.
 \begin{myexample}
 \label{exampleArithmGrammar}
 Пусть $G_0=(\{E;T;F\},~\{a;+;*;(;)\},P,E)$, где $P$ состоит из продукций:
-\begin{equation}
-\begin{array}{l}
-	E  \to E+T \mid T,\\
-	T  \to T*F \mid F,\\
+\[	E  \to E+T \mid T,\qquad
+	T  \to T*F \mid F,\qquad
 	F  \to (E) \mid a.
-\end{array}
-\end{equation}
+\]
 Пример вывода в этой грамматике:
 \begin{multline*}
 	E \To
@@ -252,26 +246,24 @@ $\emph{Ц})$.
 \begin{myexample}
 \label{exampleAnBnCnGrammar}
 Рассмотрим грамматику $G=(\{B;C;S\},\{a,b,c\},P,S)$, где $P$ состоит из продукций:
-\begin{equation}
-\begin{array}{l}
-	S  \to aSBC \mid abC,\\
-	CB \to BC,\\
-	bB \to bb,\\
-	bC \to bc,\\
-	cC \to cc.
-\end{array}
-\end{equation}
+\begin{align*}
+	S  &\to aSBC \mid abC,&
+	CB &\to BC,&
+	bB &\to bb,\\
+	bC &\to bc,&
+	cC &\to cc.&&
+\end{align*}
 Пример вывода в этой грамматике:
-\begin{multline*}
+\[
 	S \To 
     aSBC \To
     aabCBC \To 
-    aabBCC \To \\
+    aabBCC \To
     aabbCC \To 
     aabbcC \To
     aabbcc.
-\end{multline*}
-Можно доказать, что эта грамматика порождает язык $\{a^nb^nc^n\mid n \ge1\}$.
+\]
+Можно формально доказать, что эта грамматика порождает язык $\{a^nb^nc^n\mid n \ge1\}$.
 \end{myexample}
 
 \begin{myexample}
@@ -279,23 +271,23 @@ $\emph{Ц})$.
 Пусть $G=(\{A;B;C;D;S\},\{a;b\},P,S)$, где $P$ состоит из продукций:
 \begin{align*}
 	S  &\to CD, &
-    Ab &\to bA, \\
+    Ab &\to bA, &
 	C  &\to aCA \mid bCB \mid \eps, &
     Ba &\to aB, \\
 	AD &\to aD, &
-    Bb &\to bB, \\
+    Bb &\to bB, &
 	BD &\to bD, &
     Aa &\to aA,\\
-	D  &\to \eps.
+	D  &\to \eps. &&&
 \end{align*}
 Пример вывода в этой грамматике:
 \begin{multline*}
 	S \To
     CD \To 
     aCAD \To
-    abCBAD \To \\
-    abBAD \To 
-    abBaD \To 
+    abCBAD \To 
+    abBAD \To \\
+    abBaD \To
     abaBD \To 
     ababD \To 
     abab.
