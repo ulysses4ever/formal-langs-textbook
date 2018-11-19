@@ -1,0 +1,166 @@
+\begin{figure}
+\begin{subfigure}[b]{\linewidth}
+\centering
+\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state]    (0)              {$q_0'$};
+  %\node[state]            (1) [right of=0] {$q_1'$};
+  %\node[state]            (3) [right of=1] {$q_3'$};
+  %\node[state]            (6) [right of=3] {$q_6'$};
+
+  %\node[state]            (2) [below of=0] {$q_2'$};
+  %\node[state]            (5) [below right of=0] {$q_5'$};
+  
+  %\node[state]            (4) [below of=2] {$q_4'$};
+
+  \node[state]  (7) [below of=0] {$q_7'$};
+
+  \node[state]  (8) [right of=0] {$q_8'$};
+  \node[state]  (9) [right of=7] {$q_9'$};
+  \node[state,accepting]  (F) [right of=9] {$q_f'$};
+
+  \path %(0) edge              node {$000$} 		(6)
+        (0) edge              node[sloped, anchor=center, above] {$(01+11)0$} 		(8)
+        (0) edge              node [sloped, xshift=-0.2em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1$} 		(9)
+        (0) edge              node[sloped, anchor=center, above] {$100$} 		(7)
+
+        %(1) edge              node {0} 		(3)
+        %(1) edge              node {1} 		(5)
+
+        %(2) edge              node {0} 		(4)
+        %(2) edge              node {1} 		(5)
+
+        %(3) edge              node {0} 		(6)
+        %(3) edge              node {1} 		(9)
+
+        %(4) edge              node {0} 		(7)
+        %(4) edge              node {1} 		(9)
+
+        %(5) edge              node {0} 		(8)
+        %(5) edge              node {1} 		(9)
+
+        %(6) edge [loop below] node {0} 		(6)
+        %(6) edge              node {1} 		(9)
+
+        %(7) edge              node {0} 		(6)
+        (7) edge              node[sloped, anchor=center, above] {$1 + 00^*1$} 		(9)
+
+        (8) edge              node  [sloped, xshift=-5.0em, anchor=west, above]{$0$} 		(7)
+        (8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
+
+        (9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
+        (9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9)
+
+        (7) edge [bend right=25] node [below] {$e$} 		(F)
+        (8) edge node [sloped, anchor=center, above]{$e$} 		(F)
+        (9) edge node [sloped, anchor=center, above]{$e$} 		(F);
+\end{tikzpicture} 
+    \caption{}\label{}
+\end{subfigure}%
+\\
+\begin{subfigure}[b]{\linewidth}
+\centering
+\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state]    (0)              {$q_0'$};
+  %\node[state]            (1) [right of=0] {$q_1'$};
+  %\node[state]            (3) [right of=1] {$q_3'$};
+  %\node[state]            (6) [right of=3] {$q_6'$};
+
+  %\node[state]            (2) [below of=0] {$q_2'$};
+  %\node[state]            (5) [below right of=0] {$q_5'$};
+  
+  %\node[state]            (4) [below of=2] {$q_4'$};
+
+  \node[state]  (7) [below of=0] {$q_7'$};
+
+  \node[state]  (8) [right of=0] {$q_8'$};
+  %\node[state]  (9) [right of=7] {$q_9'$};
+  \node[state,accepting]  (F) [right of=9 ] {$q_f'$};
+
+  \path %(0) edge              node {$000$} 		(6)
+        (0) edge              node {$K_1$} 		(8)
+        (0) edge              node [sloped, xshift=0.4em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1$} 		(F)
+        (0) edge              node [sloped, anchor=center, above]{$100$} 		(7)
+
+        %(1) edge              node {0} 		(3)
+        %(1) edge              node {1} 		(5)
+
+        %(2) edge              node {0} 		(4)
+        %(2) edge              node {1} 		(5)
+
+        %(3) edge              node {0} 		(6)
+        %(3) edge              node {1} 		(9)
+
+        %(4) edge              node {0} 		(7)
+        %(4) edge              node {1} 		(9)
+
+        %(5) edge              node {0} 		(8)
+        %(5) edge              node {1} 		(9)
+
+        %(6) edge [loop below] node {0} 		(6)
+        %(6) edge              node {1} 		(9)
+
+        %(7) edge              node {0} 		(6)
+        %(7) edge              node [sloped, anchor=center, above]{$1 + 00^*1$} 		(9)
+        (7) edge [bend left]             node [sloped, anchor=center, above]{$(1 + 00^*1)1^*0$} 		(8)
+
+        (8) edge [bend left]             node  {$0$} 		(7)
+        (8) edge [loop above] node[sloped, anchor=center, above] {$10$} 		(8)
+
+        %(9) edge [bend left=10] node {0} 		(8)
+        %(9) edge [loop below]  node {1} 		(9)
+
+        (7) edge node [below] {$e + (1+00^*1)1^*$} 		(F)
+        (8) edge node [sloped, anchor=center, above]{$e + 11^*$} 		(F)
+        %(9) edge node [sloped, anchor=center, above]{$e$} 		(F)
+        ;
+\end{tikzpicture} 
+    \caption{}\label{}
+\end{subfigure}
+\caption{}\label{app-ex-fig-8}
+%
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.4\linewidth}
+\centering
+\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=3cm, semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state]    (0)              {$q_0'$};
+  %\node[state]  (7) [below of=0] {$q_7'$};
+
+  \node[state]  (8) [right of=0] {$q_8'$};
+  \node[state,accepting]  (F) [below of=8 ] {$q_f'$};
+
+  \path 
+        (0) edge              node {$K_2$} 		(8)
+        (0) edge              node [sloped, xshift=0.4em,anchor=center, above]{$K_3$} 		(F)
+        (8) edge [loop above] node {$10 + 0(1+00^*1)1^*0$} 		(8)
+        (8) edge node {$K_4$} 		(F)
+        ;
+\end{tikzpicture} 
+    \caption{}\label{}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{0.4\linewidth}
+\centering
+\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=3cm, semithick]
+  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+  \node[initial,state]    (0)              {$q_0'$};
+  %\node[state]  (8) [right of=0] {$q_8'$};
+  \node[state,accepting]  (F) [right of=0 ] {$q_f'$};
+
+  \path 
+        (0) edge              node {$K_5$} 		(F);
+\end{tikzpicture}
+    \caption{}\label{}
+\end{subfigure}
+\caption{}\label{app-ex-fig-9}
+%
+\end{figure}

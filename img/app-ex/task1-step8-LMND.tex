@@ -1,0 +1,108 @@
+\begin{figure}
+\begin{subfigure}[b]{\linewidth}
+\centering
+    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=3cm, semithick]
+      \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+      \node[initial,state]    (S)              {$q_0$};
+      \node[state]            (1F) [right of=S] {$q_{1F}$};
+      \node[state]            (2F) [right of=1F] {$q_{2F}$};
+
+      \node[state]            (1T) [below of=1F] {$q_{1T}$};
+      \node[state]            (2T) [right of=1T] {$q_{2T}$};
+      \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
+
+      \path (S) edge [loop below]  node {$0+1$}  (S)
+                edge              node {0} 		(1F)
+                edge              node {1} 		(1T)
+            (1F) edge              node {0} 		(2F)
+                 edge              node {1} 		(2T)
+            (2F) edge              node {1} 		(3T)
+
+            (1T) edge              node {$1+0$} 		(2T)
+            (2T) edge              node {$1+0$} 		(3T);
+    \end{tikzpicture}
+    \caption{}\label{}
+\end{subfigure}%
+\\
+\begin{subfigure}[b]{\linewidth}
+\centering
+    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=3cm, semithick]
+      \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+      \node[initial,state]    (S)              {$q_0$};
+      \node[state]            (1F) [right of=S] {$q_{1F}$};
+      %\node[state]            (2F) [right of=1F] {$q_{2F}$};
+
+      %\node[state]            (1T) [below of=1F] {$q_{1T}$};
+      \node[state]            (2T) [below of=1F] {$q_{2T}$};
+      \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
+
+      \path (S) edge [loop below]  node {$0+1$}  (S)
+                edge              node {$0$} 		(1F)
+                edge              node [sloped, anchor=center, above]{$1(1+0)$} 		(2T)
+            (1F) edge              node [sloped, anchor=center, above]{$01$} 		(3T)
+                 edge              node {$1$} 		(2T)
+       %     (2F) edge              node {1} 		(3T)
+
+        %    (1T) edge              node {1} 		(2T)
+            (2T) edge              node {$1+0$} 		(3T);
+    \end{tikzpicture}
+    \caption{}\label{}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{\linewidth}
+\centering
+    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=4.2cm, semithick]
+      \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+      \node[initial,state]    (S)              {$q_0$};
+      %\node[state]            (1F) [right of=S] {$q_{1F}$};
+      %\node[state]            (2F) [right of=1F] {$q_{2F}$};
+
+      %\node[state]            (1T) [below of=1F] {$q_{1T}$};
+      \node[state]            (2T) [below right of=S] {$q_{2T}$};
+      \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
+
+      \path (S) edge [loop above]  node [left] {$0+1$}  (S)
+                edge              node [sloped, anchor=center, above]{$001$} 		(3T)
+                edge node [sloped, anchor=center, below]{$1(1+0)+01$} 		(2T)
+        %    (1F) edge              node {01} 		(3T)
+        %    	 edge              node {1} 		(2T)
+       %     (2F) edge              node {1} 		(3T)
+
+        %    (1T) edge              node {1} 		(2T)
+            (2T) edge              node {$1+0$} 		(3T);
+    \end{tikzpicture}
+    \caption{}\label{}
+\end{subfigure}%
+\\
+\begin{subfigure}[b]{\linewidth}
+\centering
+    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=7.5cm, semithick]
+      \tikzstyle{every state}=[fill=none,draw=black,text=black]
+
+      \node[initial,state]    (S)              {$q_0$};
+      %\node[state]            (1F) [right of=S] {$q_{1F}$};
+      %\node[state]            (2F) [right of=1F] {$q_{2F}$};
+
+      %\node[state]            (1T) [below of=1F] {$q_{1T}$};
+      %\node[state]            (2T) [below of=S] {$q_{2T}$};
+      \node[state,accepting]  (3T) [right of=S] {$q_{3T}$};
+
+      \path (S) edge [loop above]  node [left] {$0+1$}  (S)
+                edge              node [sloped, anchor=center, above]{$(1(1+0)+01)(1+0) + 001$} 		(3T)
+                %edge [bend right=50]  node {11+01} 		(2T)
+        %    (1F) edge              node {01} 		(3T)
+        %    	 edge              node {1} 		(2T)
+       %     (2F) edge              node {1} 		(3T)
+
+        %    (1T) edge              node {1} 		(2T)
+        %	(2T) edge              node {1} 		(3T)
+            ;
+    \end{tikzpicture}
+    \caption{}\label{}
+\end{subfigure}
+\caption{}\label{app-ex-fig-5}
+%
+\end{figure}

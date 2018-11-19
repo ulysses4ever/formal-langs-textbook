@@ -1,19 +1,25 @@
 \renewcommand{\theAlgoEnv}{\Alph{chapter}.\arabic{AlgoEnv}}
+%\renewcommand{\theequation}{\arabic{chapter}.\arabic{}}
+\renewcommand{\thesection}{\arabic{section}}
 
 \chapter{Пример выполнения заданий курсовой работы}
+
 \section*{Задание 1}
+\setcounter{section}{1}
+\cohead{Задание 1}
+
 Язык над алфавитом $\Sigma = \{0,1\}$, состоящий из всех слов, в которых хотя бы на одной из последних трех позиций стоит $1$.
 \begin{enumerate}[label=(\roman{*})]
 	\item Построим ПЛ-грамматику $G$, порождающую $L$. Вначале будем выводить (возможно пустой) префикс слова, а затем последние три символа, контролируя момент первого написания единицы.\\
 		$G = (\{S, P, T_{0F}, T_{1F}, T_{1T}, T_{2F}, T_{2T}\}, \{0, 1\}, P, S)$
 		\begin{align*}
-			S &\longrightarrow P\\
-			P &\longrightarrow 0P | 1P | T_{0F}\\ 
-			T_{0F} &\longrightarrow 0T_{1F} | 1T_{1T}\\
-			T_{1F} &\longrightarrow 0T_{2F} | 1T_{2T}\\
-			T_{1T} &\longrightarrow 0T_{2T} | 1T_{2T}\\
-			T_{2F} &\longrightarrow 1\\
-			T_{2T} &\longrightarrow 0 | 1
+			S &\longrightarrow P &
+			P &\longrightarrow 0P \mid 1P \mid T_{0F}&
+			T_{2T} &\longrightarrow 0 \mid 1\\
+			T_{1F} &\longrightarrow 0T_{2F} \mid 1T_{2T} &
+			T_{1T} &\longrightarrow 0T_{2T} \mid 1T_{2T} &
+			T_{2F} &\longrightarrow 1 \\
+			T_{0F} &\longrightarrow 0T_{1F} \mid 1T_{1T}
 		\end{align*}
 	\item
 		\begin{description}
@@ -24,27 +30,29 @@
 				$\forall w \in L(G), w = pt, |t| = 3, p \in \{0,1\}^*$ Суффикс же содержит по крайней мере одну единицу, так как вывод завершается, либо продукцией $T_{9F} \longrightarrow 1$ и тогда единственная единица в слове стоит в самом конце слова, либо $T_{9T} \longrightarrow 0 | 1$, а нетерминалы вида $T_{iT}$ выводятся только после написания первой единицы суффикса. Следовательно, все выводимые слова это слова написанные буквами из $\{0,1\}$ такие, что в последних трех символах стоит по меньшей мере одна единица.
 		\end{description}
 
-	\item Решим систему линейных уравнений с регулярными коэффициентами
+	\item Решим систему линейных уравнений с регулярными коэффициентами:
 		\begin{align}
 			S &= P\\
-			P &= 0P + 1P + T_{0F}\\ 
+			P &= 0P + 1P + T_{0F}\label{app-ex-examp-1}\\
 			T_{0F} &= 0T_{1F} + 1T_{1T}\\
 			T_{1F} &= 0T_{2F} + 1T_{2T}\\
 			T_{1T} &= 0T_{2T} + 1T_{2T}\\
 			T_{2F} &= 1\\
-			T_{2T} &= 0 + 1
+			T_{2T} &= 0 + 1\label{app-ex-examp-2}
 		\end{align}
-		\\\\Для уравнений с $(2)$ по $(7)$ совершим последовательную подстановку снизу вверх и упрощая. Получим:
+		Для уравнений с \ref{app-ex-examp-2} по \ref{app-ex-examp-1} совершим последовательную подстановку снизу вверх, проводя упрощения. Получим:
 		\begin{align}
-			S &= P\\
-			P &= (0+1)P + 1(0+1)^2 + (0+1)1(0+1) + (0+1)^21\nonumber
+			S &= P\label{app-ex-examp-3}\\
+			P &= (0+1)P + 1(0+1)^2 + (0+1)1(0+1) + (0+1)^21\label{app-ex-examp-4}
 		\end{align}
-		Затем для $(9)$ по формуле $A = \alpha A + \beta \Rightarrow A = \alpha^*\beta$ получим подставив сразу в $(8)$:
+		Затем для \ref{app-ex-examp-4} применим формулу $A = \alpha A + \beta \Rightarrow A = \alpha^*\beta$ и подставим результат в \ref{app-ex-examp-3}:
 		\begin{align*}
 			S &= (0+1)^*(1(0+1)^2 + (0+1)1(0+1) + (0+1)^21)
 		\end{align*}
 
-	\item Построим $M^{ND}$:\\
+	\item Построим $M^{ND}$ (рис.~\ref{app-ex-fig-1}, с.~\pageref{app-ex-fig-1}).
+\begin{figure}
+\centering
 		\begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=2.5cm, semithick]
 		  \tikzstyle{every state}=[fill=none,draw=black,text=black]
 
@@ -65,8 +73,14 @@
 
 		        (1T) edge              node {$1+0$} 		(2T)
 				(2T) edge              node {$1+0$} 		(3T);
-		\end{tikzpicture}\\
-	\item Детерминируем $M^{ND}$ воспользовавшись алгоритмом детерминизации конечных автоматов.\\
+		\end{tikzpicture}
+        \caption{}\label{app-ex-fig-1}
+\end{figure}
+
+	\item Детерминируем $M^{ND}$ воспользовавшись алгоритмом детерминизации конечных автоматов: на рис.~\ref{app-ex-fig-2} (с.~\pageref{app-ex-fig-2}) проведена таблица работы алгоритма, на рис.~\ref{app-ex-fig-3} (с.~\pageref{app-ex-fig-3}) преведен граф переходов результирующего детерминированного автомата~$M^{D}$.
+
+\begin{figure}
+\centering
 		$\begin{array}{|c||c|c|c|}
 			\hline
 			q' & $q$ & $0$ & $1$\\
@@ -94,8 +108,11 @@
 			q_9' & \tikz \node[draw,shape=rounded rectangle, inner sep=1pt]{$\{q_0, q_{1T}, q_{2T}, q_{3T}\}$}; & \{q_0, q_{1F}, q_{2T}, q_{3T}\} & \{q_0, q_{1T}, q_{2T}, q_{3T}\}\\
 			\hline
 		\end{array}$\\
+        \caption{}\label{app-ex-fig-2}
+\end{figure}
 
-		$M^{D}$:\\
+\begin{figure}
+\centering
 		\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
 		  \tikzstyle{every state}=[fill=none,draw=black,text=black]
 
@@ -144,12 +161,17 @@
 		  		(9) edge [bend left=10] node {0} 		(8)
 				(9) edge [loop below]  node {1} 		(9);
 		\end{tikzpicture}
+        \caption{}\label{app-ex-fig-3}
+\end{figure}
+
 	\item
 		Покажем, что $L(M^{ND}) \subset L$: Рассмотрим произвольное слово $w \in L, |w| = k$. Рассмотрим работу автомата с этим словом на входе. Первые $k-3$ символа прочтутся переходами по петле $0+1$ (конечно, будут клоны, которые будут переходить в состояния $q_{1F}$, $q_{1T}$ и дальше, но они будут безусловно умирать, так как им на прочтение будет оставаться больше трех символов), затем, оставшиеся три символа будут прочтены автоматом, а так как это слово из $L$, т. е. содержит по меньшей мере одну единицу в суффиксе длины $3$, то мы непременно прочтем в этих трех символах единицу и остановимся в $q_{3T}$.\\
 		Покажем, что $L \subset L(M^{ND})$: Рассмотрим пути на графе автомата, которые заканчиваются в финальном состоянии $q_{3T}$. Они все состоят из некоторого числа проходов по петле $0+1$, после чего следует последовательность из трех переходов, безусловно содержащих по меньшей мере одну единицу.\\
 		Таким образом доказано, что $L(M^{ND}) = L$.\\
 		Из того, что мы строили $M^D$ по $M^{ND}$ с помощью алгоритма детерминизации конечных автоматов для которого доказана эквивалентность в смысле равенства распознаваемых языков следует, что $L(M^{ND}) = L(M^D)$.
+        
 	\item Для минимизации $M^{D}$ вначале построим множества неразличимых состояний. Для этого на первой итерации образуем два множества неразличимых пустым словом состояний: финальные и не финальные. После чего на каждой итерации будем проверять, что два состояния из одного и того же множества неразличимы по каждой букве, т. е. переходят в одно и тоже множество из прошлой итерации. Если на некоторой итерации $i$ они становятся различимы, то разделяем множество на подмножества неразличимых состояний словами длины $i$. Повторяем этот процесс пока множества не перестанут разделятся. Для минимизации автомата отождествим все неразличимые вершины графа:
+
 		\begin{enumerate}[label={Итерация №\arabic*:},leftmargin=\widthof{Итерация №9:}+\labelsep]
 			\item $\{q_0', q_1', q_2', q_3', q_4', q_5', q_6'\}; \{q_7', q_8', q_9'\};$
 			\item $\{q_0', q_1', q_2'\}; \{q_3', q_6'\}; \{q_4', q_5'\}; \{q_7'\}; \{q_8', q_9'\};$
@@ -157,7 +179,10 @@
 			\item $\{q_0'\}; \{q_1'\}; \{q_2'\}; \{q_3', q_6'\}; \{q_4'\}; \{q_5'\}; \{q_7'\}; \{q_8'\}; \{q_9'\};$
 		\end{enumerate}
 		
-		$M^{D}_{min}$:\\
+		Результат минимизации, $M^{D}_{min}$, показан на рис.~\ref{app-ex-fig-4} (с.~\pageref{app-ex-fig-4}).
+        
+\begin{figure}
+\centering
 		\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
 		  \tikzstyle{every state}=[fill=none,draw=black,text=black]
 
@@ -201,462 +226,59 @@
 
 		  		(9) edge [bend left=10] node {0} 		(8)
 				(9) edge [loop below]  node {1} 		(9);
-		\end{tikzpicture}\\
+		\end{tikzpicture}
+\caption{}\label{app-ex-fig-4}
+\end{figure}
+
+
 		Для доказательства минимальности $M^{ND}$ воспользуемся следующими рассуждениями: для распознавания слов из $L$ и нераспознавания слов из $\overline{L}$ нам необходимо читать префикс слова, что выполняет петля из $q_0$ по $0+1$ и читать суффикс убеждаясь, что он имеет длину, равную $3$, и содержит как минимум одну единицу. Для подсчета числа прочитанных символов из суффикса достаточно трех вершин, но, так как необходимо контролировать еще и факт прочтения единицы в суффиксе, число необходимых состояний удваивается за счет того, что на каждом из трех этапов мы можем как уже прочесть единицу, так и нет. Но так как состояние обозначающее, что мы прочли три символа суффикса и не встретили единицу --- тупиковая ветвь нашего автомата, то её можно выбросить допустив смерть клона читающего ноль в состоянии <<прочтено два символа и не встречена единица>>. Таким образом у нас остается шесть состояний все из которых необходимы для успешного функционирования автомата и мы убедились, что $M^{ND}$ минимален.
 
-	\item Воспользуемся методом последовательного исключения состояний для того, чтобы выписать регулярное выражение:\\
-	\begin{description}
-		\item[$L(M^{ND})$:]\hfill \\
-			\begin{enumerate}[label=\bfseries Шаг \arabic*:]
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=2.5cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
+	\item Воспользуемся методом последовательного исключения состояний для того, чтобы выписать регулярное выражения для автоматов $L(M^{ND})$ и $L(M^{D})$.
+    
+    Обработка автомата $L(M^{ND})$ максимально проста и последовательно показана на рисунках \ref{app-ex-fig-5} (a)--(d) (с. \pageref{app-ex-fig-5}).
 
-					  \node[initial,state]    (S)              {$q_0$};
-					  \node[state]            (1F) [right of=S] {$q_{1F}$};
-					  \node[state]            (2F) [right of=1F] {$q_{2F}$};
-
-					  \node[state]            (1T) [below of=1F] {$q_{1T}$};
-					  \node[state]            (2T) [right of=1T] {$q_{2T}$};
-					  \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
-
-					  \path (S) edge [loop below]  node {$0+1$}  (S)
-					            edge              node {0} 		(1F)
-					            edge              node {1} 		(1T)
-					        (1F) edge              node {0} 		(2F)
-					        	 edge              node {1} 		(2T)
-					        (2F) edge              node {1} 		(3T)
-
-					        (1T) edge              node {$1+0$} 		(2T)
-							(2T) edge              node {$1+0$} 		(3T);
-					\end{tikzpicture}\\
-
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=2.5cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (S)              {$q_0$};
-					  \node[state]            (1F) [right of=S] {$q_{1F}$};
-					  %\node[state]            (2F) [right of=1F] {$q_{2F}$};
-
-					  %\node[state]            (1T) [below of=1F] {$q_{1T}$};
-					  \node[state]            (2T) [below of=1F] {$q_{2T}$};
-					  \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
-
-					  \path (S) edge [loop below]  node {$0+1$}  (S)
-					            edge              node {$0$} 		(1F)
-					            edge              node [sloped, anchor=center, above]{$1(1+0)$} 		(2T)
-					        (1F) edge              node [sloped, anchor=center, above]{$01$} 		(3T)
-					        	 edge              node {$1$} 		(2T)
-					   %     (2F) edge              node {1} 		(3T)
-
-					    %    (1T) edge              node {1} 		(2T)
-							(2T) edge              node {$1+0$} 		(3T);
-					\end{tikzpicture}\\
-
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=3.5cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (S)              {$q_0$};
-					  %\node[state]            (1F) [right of=S] {$q_{1F}$};
-					  %\node[state]            (2F) [right of=1F] {$q_{2F}$};
-
-					  %\node[state]            (1T) [below of=1F] {$q_{1T}$};
-					  \node[state]            (2T) [below right of=S] {$q_{2T}$};
-					  \node[state,accepting]  (3T) [right of=2T] {$q_{3T}$};
-
-					  \path (S) edge [loop above]  node {$0+1$}  (S)
-					            edge              node [sloped, anchor=center, above]{$001$} 		(3T)
-					            edge node [sloped, anchor=center, below]{$1(1+0)+01$} 		(2T)
-					    %    (1F) edge              node {01} 		(3T)
-					    %    	 edge              node {1} 		(2T)
-					   %     (2F) edge              node {1} 		(3T)
-
-					    %    (1T) edge              node {1} 		(2T)
-							(2T) edge              node {$1+0$} 		(3T);
-					\end{tikzpicture}\\
-
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={},->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (S)              {$q_0$};
-					  %\node[state]            (1F) [right of=S] {$q_{1F}$};
-					  %\node[state]            (2F) [right of=1F] {$q_{2F}$};
-
-					  %\node[state]            (1T) [below of=1F] {$q_{1T}$};
-					  %\node[state]            (2T) [below of=S] {$q_{2T}$};
-					  \node[state,accepting]  (3T) [right of=S] {$q_{3T}$};
-
-					  \path (S) edge [loop above]  node {$0+1$}  (S)
-					            edge              node [sloped, anchor=center, above]{$(1(1+0)+01)(1+0) + 001$} 		(3T)
-					     		%edge [bend right=50]  node {11+01} 		(2T)
-					    %    (1F) edge              node {01} 		(3T)
-					    %    	 edge              node {1} 		(2T)
-					   %     (2F) edge              node {1} 		(3T)
-
-					    %    (1T) edge              node {1} 		(2T)
-						%	(2T) edge              node {1} 		(3T)
-							;
-					\end{tikzpicture}\\
-			\end{enumerate}
-			Таким образом, мы получаем регулярное выражение $L(M^{ND}) = \\
+\input{img/app-ex/task1-step8-LMND}
+    
+    В итоге мы получаем регулярное выражение
+    \begin{multline*}
+    L(M^{ND}) =
             (0+1)^*((1(1+0)+01)(1+0) + 001) = \\
             (0+1)^*((11 + 10 + 01)(1+0) + 001) = \\
-            (0+1)^*(001 + 010 + 011 + 100 + 101 + 110 + 111)$\\
-
-		\item[$L(M^D)$:]\hfill \\
-			\begin{enumerate}[label=\bfseries Шаг \arabic*:]
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  \node[state]            (1) [right of=0] {$q_1'$};
-					  \node[state]            (3) [right of=1] {$q_3'$};
-					  \node[state]            (6) [right of=3] {$q_6'$};
-
-					  \node[state]            (2) [below of=0] {$q_2'$};
-					  \node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  \node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state,accepting]  (7) [below right of=2] {$q_7'$};
-
-					  \node[state,accepting]  (8) [below left of=3] {$q_8'$};
-					  \node[state,accepting]  (9) [below right of=7] {$q_9'$};
-
-					  \path (0) edge              node[sloped, anchor=center, above] {0} 		(1)
-					  		(0) edge              node[sloped, anchor=center, above] {1} 		(2)
-
-					  		(1) edge              node[sloped, anchor=center, above] {0} 		(3)
-					  		(1) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		(2) edge              node[sloped, anchor=center, above] {0} 		(4)
-					  		(2) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		(3) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(3) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(4) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(4) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(5) edge              node[sloped, anchor=center, above] {0} 		(8)
-					  		(5) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(6) edge [loop below] node[sloped, anchor=center, above] {0} 		(6)
-					  		(6) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(7) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(7) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(8) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
-							(9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9);
-					\end{tikzpicture}
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]            (1) [right of=0] {$q_1'$};
-					  \node[state]            (3) [right of=1] {$q_3'$};
-					  \node[state]            (6) [right of=3] {$q_6'$};
-
-					  %\node[state]            (2) [below of=0] {$q_2'$};
-					  \node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  \node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state,accepting]  (7) [below right of=2] {$q_7'$};
-
-					  \node[state,accepting]  (8) [below left of=3] {$q_8'$};
-					  \node[state,accepting]  (9) [below right of=7] {$q_9'$};
-
-					  \path (0) edge              node[sloped, anchor=center, above] {$00$} 		(3)
-					  		(0) edge              node[sloped, anchor=center, above] {$01+11$} 		(5)
-					  		(0) edge              node[sloped, anchor=center, above] {$10$} 		(4)
-
-					  		%(1) edge              node[sloped, anchor=center, above] {0} 		(3)
-					  		%(1) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		%(2) edge              node[sloped, anchor=center, above] {0} 		(4)
-					  		%(2) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		(3) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(3) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(4) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(4) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(5) edge              node[sloped, anchor=center, above] {0} 		(8)
-					  		(5) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(6) edge [loop below] node[sloped, anchor=center, above] {0} 		(6)
-					  		(6) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(7) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(7) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(8) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
-							(9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9);
-					\end{tikzpicture} 
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]            (1) [right of=0] {$q_1'$};
-					  %\node[state]            (3) [right of=1] {$q_3'$};
-					  \node[state]            (6) [right of=3] {$q_6'$};
-
-					  %\node[state]            (2) [below of=0] {$q_2'$};
-					  %\node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  \node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state,accepting]  (7) [below right of=2] {$q_7'$};
-
-					  \node[state,accepting]  (8) [below left of=3] {$q_8'$};
-					  \node[state,accepting]  (9) [below right of=7] {$q_9'$};
-
-					  \path (0) edge              node[sloped, anchor=center, above] {$000$} 		(6)
-					  		(0) edge              node[sloped, anchor=center, above] {$(01+11)0$} 		(8)
-					  		(0) edge              node[sloped, anchor=center, above] {$001 + (01+11)1$} 		(9)
-					  		(0) edge              node[sloped, anchor=center, above] {$10$} 		(4)
-
-					  		%(1) edge              node[sloped, anchor=center, above] {0} 		(3)
-					  		%(1) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		%(2) edge              node[sloped, anchor=center, above] {0} 		(4)
-					  		%(2) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		%(3) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		%(3) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(4) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(4) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		%(5) edge              node[sloped, anchor=center, above] {0} 		(8)
-					  		%(5) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(6) edge [loop below] node[sloped, anchor=center, above] {0} 		(6)
-					  		(6) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(7) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(7) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(8) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		(8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
-							(9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9);
-					\end{tikzpicture} 
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]            (1) [right of=0] {$q_1'$};
-					  %\node[state]            (3) [right of=1] {$q_3'$};
-					  %\node[state]            (6) [right of=3] {$q_6'$};
-
-					  %\node[state]            (2) [below of=0] {$q_2'$};
-					  %\node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  %\node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state,accepting]  (7) [below of=0] {$q_7'$};
-
-					  \node[state,accepting]  (8) [right of=0] {$q_8'$};
-					  \node[state,accepting]  (9) [right of=7] {$q_9'$};
-
-					  \path %(0) edge              node {$000$} 		(6)
-					  		(0) edge              node[sloped, anchor=center, above] {$(01+11)0$} 		(8)
-					  		(0) edge              node [sloped, xshift=-0.2em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1$} 		(9)
-					  		(0) edge              node[sloped, anchor=center, above] {$100$} 		(7)
-
-					  		%(1) edge              node[sloped, anchor=center, above] {0} 		(3)
-					  		%(1) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		%(2) edge              node[sloped, anchor=center, above] {0} 		(4)
-					  		%(2) edge              node[sloped, anchor=center, above] {1} 		(5)
-
-					  		%(3) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		%(3) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		%(4) edge              node[sloped, anchor=center, above] {0} 		(7)
-					  		%(4) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		%(5) edge              node[sloped, anchor=center, above] {0} 		(8)
-					  		%(5) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		%(6) edge [loop below] node[sloped, anchor=center, above] {0} 		(6)
-					  		%(6) edge              node[sloped, anchor=center, above] {1} 		(9)
-
-					  		%(7) edge              node[sloped, anchor=center, above] {0} 		(6)
-					  		(7) edge              node[sloped, anchor=center, above] {$1 + 00^*1$} 		(9)
-
-					  		(8) edge              node  [sloped, xshift=-5.0em, anchor=west, above]{$0$} 		(7)
-					  		(8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
-							(9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9);
-					\end{tikzpicture} 
-				\item Добавим новое состояние, которое сделаем финальным и в которое пустим спонтанные переходы из текущих финальных. Также текущие финальные сделаем нефинальными. \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]            (1) [right of=0] {$q_1'$};
-					  %\node[state]            (3) [right of=1] {$q_3'$};
-					  %\node[state]            (6) [right of=3] {$q_6'$};
-
-					  %\node[state]            (2) [below of=0] {$q_2'$};
-					  %\node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  %\node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state]  (7) [below of=0] {$q_7'$};
-
-					  \node[state]  (8) [right of=0] {$q_8'$};
-					  \node[state]  (9) [right of=7] {$q_9'$};
-					  \node[state,accepting]  (F) [below right of=9 ] {$q_f'$};
-
-					  \path %(0) edge              node {$000$} 		(6)
-					  		(0) edge              node[sloped, anchor=center, above] {$(01+11)0$} 		(8)
-					  		(0) edge              node [sloped, xshift=-0.2em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1$} 		(9)
-					  		(0) edge              node[sloped, anchor=center, above] {$100$} 		(7)
-
-					  		%(1) edge              node {0} 		(3)
-					  		%(1) edge              node {1} 		(5)
-
-					  		%(2) edge              node {0} 		(4)
-					  		%(2) edge              node {1} 		(5)
-
-					  		%(3) edge              node {0} 		(6)
-					  		%(3) edge              node {1} 		(9)
-
-					  		%(4) edge              node {0} 		(7)
-					  		%(4) edge              node {1} 		(9)
-
-					  		%(5) edge              node {0} 		(8)
-					  		%(5) edge              node {1} 		(9)
-
-					  		%(6) edge [loop below] node {0} 		(6)
-					  		%(6) edge              node {1} 		(9)
-
-					  		%(7) edge              node {0} 		(6)
-					  		(7) edge              node[sloped, anchor=center, above] {$1 + 00^*1$} 		(9)
-
-					  		(8) edge              node  [sloped, xshift=-5.0em, anchor=west, above]{$0$} 		(7)
-					  		(8) edge [bend left=10] node[sloped, anchor=center, above] {1} 		(9)
-
-					  		(9) edge [bend left=10] node[sloped, anchor=center, above] {0} 		(8)
-							(9) edge [loop below]  node[sloped, anchor=center, above] {1} 		(9)
-
-							(7) edge node [sloped, anchor=center, above]{$e$} 		(F)
-							(8) edge node [sloped, anchor=center, above]{$e$} 		(F)
-							(9) edge node [sloped, anchor=center, above]{$e$} 		(F);
-					\end{tikzpicture} 
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=6.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]            (1) [right of=0] {$q_1'$};
-					  %\node[state]            (3) [right of=1] {$q_3'$};
-					  %\node[state]            (6) [right of=3] {$q_6'$};
-
-					  %\node[state]            (2) [below of=0] {$q_2'$};
-					  %\node[state]            (5) [below right of=0] {$q_5'$};
-					  
-					  %\node[state]            (4) [below of=2] {$q_4'$};
-
-					  \node[state]  (7) [below of=0] {$q_7'$};
-
-					  \node[state]  (8) [right of=0] {$q_8'$};
-					  %\node[state]  (9) [right of=7] {$q_9'$};
-					  \node[state,accepting]  (F) [below right of=9 ] {$q_f'$};
-
-					  \path %(0) edge              node {$000$} 		(6)
-					  		(0) edge              node [sloped, anchor=center, above, text width=5.0cm]{$(01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1$} 		(8)
-					  		(0) edge              node [sloped, xshift=0.4em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1$} 		(F)
-					  		(0) edge              node [sloped, anchor=center, above]{$100$} 		(7)
-
-					  		%(1) edge              node {0} 		(3)
-					  		%(1) edge              node {1} 		(5)
-
-					  		%(2) edge              node {0} 		(4)
-					  		%(2) edge              node {1} 		(5)
-
-					  		%(3) edge              node {0} 		(6)
-					  		%(3) edge              node {1} 		(9)
-
-					  		%(4) edge              node {0} 		(7)
-					  		%(4) edge              node {1} 		(9)
-
-					  		%(5) edge              node {0} 		(8)
-					  		%(5) edge              node {1} 		(9)
-
-					  		%(6) edge [loop below] node {0} 		(6)
-					  		%(6) edge              node {1} 		(9)
-
-					  		%(7) edge              node {0} 		(6)
-					  		%(7) edge              node [sloped, anchor=center, above]{$1 + 00^*1$} 		(9)
-					  		(7) edge [bend left]             node [sloped, anchor=center, above]{$(1 + 00^*1)1^*0$} 		(8)
-
-					  		(8) edge [bend left]             node  [sloped, xshift=-5.0em, anchor=west, above]{$0$} 		(7)
-					  		(8) edge [loop above] node[sloped, anchor=center, above] {$10$} 		(8)
-
-					  		%(9) edge [bend left=10] node {0} 		(8)
-							%(9) edge [loop below]  node {1} 		(9)
-
-							(7) edge node [sloped, anchor=center, above]{$e + (1+00^*1)1^*$} 		(F)
-							(8) edge node [sloped, anchor=center, above]{$e + 11^*$} 		(F)
-							%(9) edge node [sloped, anchor=center, above]{$e$} 		(F)
-							;
-					\end{tikzpicture} 
-
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=8.3cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]  (7) [below of=0] {$q_7'$};
-
-					  \node[state]  (8) [right of=0] {$q_8'$};
-					  \node[state,accepting]  (F) [below of=8 ] {$q_f'$};
-
-					  \path 
-					  		(0) edge              node [sloped, anchor=center, above, text width=5.0cm]{$(01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1 + 100(1+00^*1)1^*0$} 		(8)
-					  		(0) edge              node [sloped, xshift=0.4em,anchor=center, above]{$001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*)$} 		(F)
-					  		(8) edge [loop right] node {$10 + 0(1+00^*1)1^*0$} 		(8)
-							(8) edge node [sloped, anchor=center, above]{$e + 11^* + 0(e + (1+00^*1)1^*)$} 		(F)
-							;
-					\end{tikzpicture} 
-				\item \hfill \\
-				    \begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=9.0cm, semithick]
-					  \tikzstyle{every state}=[fill=none,draw=black,text=black]
-
-					  \node[initial,state]    (0)              {$q_0'$};
-					  %\node[state]  (8) [right of=0] {$q_8'$};
-					  \node[state,accepting]  (F) [right of=0 ] {$q_f'$};
-
-					  \path 
-					  		(0) edge              node [sloped, xshift=0.4em,anchor=center, above, text width=8.0cm]{$001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*) + ((01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1 + 100(1+00^*1)1^*0)(10 + 0(1+00^*1)1^*0)^*(e + 11^* + 0(e + (1+00^*1)1^*))$} 		(F);
-					\end{tikzpicture}
-			\end{enumerate}
-			Таким образом, мы получаем регулярное выражение $L(M^{D}) = 001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*) + ((01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1 + 100(1+00^*1)1^*0)(10 + 0(1+00^*1)1^*0)^*(e + 11^* + 0(e + (1+00^*1)1^*))$\\
-	\end{description}
-
-	\item $\overline{M^D}$: \\
+            (0+1)^*(001 + 010 + 011 + 100 + 101 + 110 + 111).
+    \end{multline*}
+
+    Обработка автомата $L(M^{D})$ приводит к более длительному процессу. Первые четыре шага показаны на рисунках \ref{app-ex-fig-6} (a)--(b) (с.~\pageref{app-ex-fig-6}) и \ref{app-ex-fig-7} (a)--(b) (с.~\pageref{app-ex-fig-7}).
+
+\input{img/app-ex/task1-step8-LMD-1-4}
+
+    Далее, добавим новое состояние, которое сделаем финальным и в которое пустим спонтанные переходы из текущих финальных. Также текущие финальные сделаем нефинальными. Результат и последующие шаги показаны на рисунках 
+    \ref{app-ex-fig-8} (a)--(b) (с.~\pageref{app-ex-fig-8}) и
+    \ref{app-ex-fig-9} (a)--(b) (с.~\pageref{app-ex-fig-9}).
+    На данных рисунках использованы следующие обозначения:
+    \begin{align*}
+    K_1 &= (01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1,\\
+    K_2 &= (01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1 + 100(1+00^*1)1^*0,\\
+    K_3 &= 001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*),\\
+    K_4 &= e + 11^* + 0(e + (1+00^*1)1^*),\\
+    K_5 &= 001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*) +\\
+        & ((01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1
+        + 100(1+00^*1)1^*0)\cdot\\
+        & (10 + 0(1+00^*1)1^*0)^*(e + 11^* + 0(e + (1+00^*1)1^*)).
+    \end{align*}
+
+\input{img/app-ex/task1-step8-LMD-5-8}
+
+    В результате мы получаем регулярное выражение 
+    \begin{multline*}
+    L(M^{D}) =
+    001 + (01+11)1 + 101 + 0000^*1 + 100(e + (1+00^*1)1^*) +\\
+    ((01+11)0 + (001 + (01+11)1 + 101 + 0000^*1)1 + 100(1+00^*1)1^*0) \cdot\\
+    (10 + 0(1+00^*1)1^*0)^*(e + 11^* + 0(e + (1+00^*1)1^*)).
+    \end{multline*}
+
+	\item Автомат $\overline{M^D}$ приведен на рис.~\ref{app-ex-fig-15}.% (с.~\pageref{app-ex-fig-15}).
+\begin{figure}[H]
+\centering
 		\begin{tikzpicture}[initial text={}, ->,>=stealth',shorten >=1pt,auto,node distance=4.0cm, semithick]
 		  \tikzstyle{every state}=[fill=none,draw=black,text=black]
 
@@ -671,8 +293,8 @@
 
 		  \node[state]  (7) [below right of=2] {$q_7'$};
 
-		  \node[state]  (8) [below left of=3] {$q_8'$};
-		  \node[state]  (9) [below right of=7] {$q_9'$};
+		  \node[state]  (9) [below=6.6cm of 3] {$q_9'$};
+		  \node[state]  (8) [above left=3.5cm and .7cm of 9] {$q_8'$};
 
 		  \path (0) edge              node {0} 		(1)
 		  		(0) edge              node {1} 		(2)
@@ -692,30 +314,36 @@
 		  		(5) edge              node {0} 		(8)
 		  		(5) edge              node {1} 		(9)
 
-		  		(7) edge [bend right=20] node {0} 		(3)
+		  		(7) edge [bend left=20] node {0} 		(3)
 		  		(7) edge              node {1} 		(9)
 
 		  		(8) edge              node {0} 		(7)
 		  		(8) edge [bend left=10] node {1} 		(9)
 
 		  		(9) edge [bend left=10] node {0} 		(8)
-				(9) edge [loop below]  node {1} 		(9);
-		\end{tikzpicture}\\
-		$\overline{L} = e + 0 + 1 + 00 + 01 + 10 + 11 + (0+1)^*000$
+				(9) edge [loop right]  node {1} 		(9);
+		\end{tikzpicture}
+\caption{}\label{app-ex-fig-15}
+\end{figure}
+
+    $\overline{L} = e + 0 + 1 + 00 + 01 + 10 + 11 + (0+1)^*000$.
 \end{enumerate}
-\newpage
+
+\clearpage
 \section*{Задание 2}
+\setcounter{section}{2}
+\cohead{Задание 2}
+
 $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 \begin{enumerate}[label=(\roman{*})]
 	\item Для каждого слова $w_i \in A$ построить НКА $M^{ND}_i$, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_i$.
-	
-	
+
 	\begin{enumerate}
-		\item НКА $M^{ND}_1$, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_1$, где $w_1$ = bbab :
-		
-		$M^{ND}_1 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$  
-		
-		
+		\item НКА, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_1$ = bbab:
+%
+		\[M^{ND}_1 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),\]
+%
+        функция $\delta$ представлена на рисунке ниже.
 			\begin{center}
 			\begin{tabular}{llll}
 				\toprule
@@ -736,12 +364,16 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 			\end{tabular}
 		\end{center}
 		
-		
-		\item НКА $M^{ND}_2$, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_2$, где $w_2$ = ссaс :
-		
-		$M^{ND}_2 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-		\begin{center}
+		\item НКА, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_2$ = ссaс:
+%
+		\[M^{ND}_2 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),\]
+%
+        функция $\delta$ представлена на рис.~\ref{app-ex-task2-1} (с.~\pageref{app-ex-task2-1}).
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -759,14 +391,11 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
-		
-		
-		\item НКА $M^{ND}_3$, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_3$, где $w_3$ = bacb :
-		
-		$M^{ND}_3 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-		\begin{center}
+\caption{}\label{app-ex-task2-1}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -784,13 +413,28 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
+\caption{}\label{app-ex-task2-2}
+\end{subfigure}
+\caption{}\label{app-ex-task2-3}
+\end{figure}
 		
-		\item НКА $M^{ND}_4$, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_4$, где $w_4$ = baabc :
 		
-		$M^{ND}_4 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-		\begin{center}
+		\item НКА, распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_3$ = bacb:
+		\[
+            M^{ND}_3 = (\{q_0, q_1, q_2, q_3, q_4, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),
+        \]
+		функция $\delta$ представлена на рис.~\ref{app-ex-task2-2}.
+        
+		\item НКА распознающий наличие в произвольной строке $s \in \Sigma^*$ подстроки $w_4$ = baabc:
+		\[
+            M^{ND}_4 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),
+        \]
+        функция $\delta$ представлена на рис.~\ref{app-ex-task2-4} (с.~\pageref{app-ex-task2-4}).
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -809,25 +453,11 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
-		
-	\end{enumerate}
-
-	
-	\item Для каждого НКА $M^{ND}_i$ построить соответствующий ДКА $M^D_i$.
-		
-	\begin{enumerate}
-		
-		\item ДКА $M^{D}_1$, соответствующий НКА  $M^{ND}_1$ :
-		\newline
-		
-		Переобозначим : $\{q_2, q_3\} = \{q_5\}$ 
-		\newline 
-		
-		$M^{D}_1 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-		
-		\begin{center}
+\caption{}\label{app-ex-task2-4}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -846,18 +476,34 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
+
+\caption{}\label{app-ex-task2-5}
+\end{subfigure}
+\caption{}\label{app-ex-task2-6}
+\end{figure}
+
+	\end{enumerate}
+
+	\item Для каждого НКА $M^{ND}_i$ построить соответствующий ДКА $M^D_i$.
 		
+	\begin{enumerate}
 		
-		\item ДКА $M^{D}_2$, соответствующий НКА  $M^{ND}_2$ :
-		\newline
+		\item Для НКА $M^{ND}_1$ соответствующий ДКА:
+        \[
+            M^{D}_1 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),
+        \]
+        с учетом переобозначения $\{q_2, q_3\} = \{q_5\}$, см. рис.~\ref{app-ex-task2-5}.
 		
-		Переобозначим : $\{q_2, q_3\} = \{q_5\}$ 
-		\newline 
-		
-		$M^{D}_2 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-			\begin{center}
+		\item Для НКА $M^{ND}_2$ соответствующий ДКА:
+		\[
+            M^{D}_2 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\}),
+        \]
+        с учетом переобозначения $\{q_2, q_3\} = \{q_5\}$, см. рис.~\ref{app-ex-task2-7} (с.~\pageref{app-ex-task2-7}).
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -876,17 +522,11 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
-		
-		\item ДКА $M^{D}_3$, соответствующий НКА  $M^{ND}_3$ :
-		\newline
-		
-		Переобозначим : $\{q_1, q_2\} = \{q_5\}$ 
-		\newline 
-		
-		$M^{D}_3 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		
-			\begin{center}
+\caption{}\label{app-ex-task2-7}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -905,18 +545,21 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
+\caption{}\label{app-ex-task2-8}
+\end{subfigure}
+\caption{}\label{app-ex-task2-9}
+\end{figure}
 		
-		\item ДКА $M^{D}_4$, соответствующий НКА  $M^{ND}_4$ :
-		\newline
+		\item Для НКА $M^{ND}_3$ соответствующий ДКА:
+		\[M^{D}_3 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})\]
+		с учетом переобозначения $\{q_1, q_2\} = \{q_5\}$, см. рис.~\ref{app-ex-task2-8}.
 		
-		Переобозначим : $\{q_1, q_2\} = \{q_6\}$ 
-		\newline 
-		
-		$M^{D}_4 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})$
-		\newline
+		\item Для НКА $M^{ND}_4$ соответствующий ДКА:
+		\[M^{D}_4 = (\{q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_f\}, \{a, b, c\}, \delta, q_0, \{q_f\})\]
+		с учетом переобозначения $\{q_1, q_2\} = \{q_6\}$, см. рис.~\ref{app-ex-task2-10} (с.~\pageref{app-ex-task2-10}).
 			
-		\begin{center}
+\begin{figure}
+\centering
 			\begin{tabular}{llll}
 				\toprule
 				\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -936,22 +579,25 @@ $\Sigma = \{a, b, c\}, A = \{bbab, ccac, bacb, baabc\}.$
 				$\{q_f\}$       & $\{\varnothing\}$    	 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
 				\bottomrule
 			\end{tabular}
-		\end{center}
+\caption{}\label{app-ex-task2-10}
+\end{figure}
 		
 	\end{enumerate}
 \end{enumerate}
 
-\newpage
+\clearpage
 \section*{Задание 3}
-$L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
-\newline
-	
-	Вспомогательные построения автоматов для решения задания 3 :
-	\newline
-	
-	НКА для $L_1$:
-	
+\setcounter{section}{3}
+\cohead{Задание 3}
+
+\[L_1 = (aa + bb)^*a^*ab(a + ba)^*, \qquad L_2 = (aa)^*a(a + b)^*(bb)^*\]
+
+Перед началом решения задания проведём \emph{вспомогательные построения}.
+
+Граф переходов НКА для $L_1$:
+
 	\begin{center}	
+    \resizebox{\linewidth}{!}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (1) [right=.7cm of init] {$1$};
@@ -980,30 +626,10 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(8) edge[bend left] node {$a$} (6)
 		;
 		\end{tikzpicture}
+    }
 	\end{center}
 
-	\begin{center}
-		\begin{tabular}{lll}
-			\toprule
-			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
-			& \multicolumn{2}{c}{Вход} \\
-			\cmidrule(rl){2-3}
-			& \multicolumn{1}{c}{$a$}
-			& \multicolumn{1}{c}{$b$}  \\
-			\midrule
-			$\to \{1\}$       & $\{2\}, \{4\}$      		 & $\{3\}$      \\
-			$\{2\}$       & $\{1\}$    			 & $\{\varnothing\}$      \\
-			$\{3\}$       & $\{\varnothing\}$    			 & $\{1\}$       \\
-			$\{4\}$       & $\{4\}$    			 & $\{5\}$       \\
-			$\{\textbf{5}\}$       & $\{6\}$    			 & $\{7\}$       \\
-			$\{\textbf{6}\}$       & $\{6\}$    			 & $\{8\}$     \\
-			$\{7\}$       & $\{6\}$    			 & $\{\varnothing\}$     \\
-			$\{8\}$       & $\{6\}$    	 & $\{\varnothing\}$  \\
-			\bottomrule
-		\end{tabular}
-	\end{center}
-	
-	НКА для $L_2$:
+Граф переходов НКА для $L_2$:
 	
 		\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
@@ -1029,7 +655,35 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		\end{tikzpicture}
 	\end{center}
 
-	\begin{center}
+Функции переходов $\delta$ для $L_1$ и $L_2$ показаны в табличном виде на рисунках \ref{app-ex-task3-1} и \ref{app-ex-task3-2} соответственно.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{.4\linewidth}
+\centering
+		\begin{tabular}{lll}
+			\toprule
+			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
+			& \multicolumn{2}{c}{Вход} \\
+			\cmidrule(rl){2-3}
+			& \multicolumn{1}{c}{$a$}
+			& \multicolumn{1}{c}{$b$}  \\
+			\midrule
+			$\to \{1\}$       & $\{2\}, \{4\}$      		 & $\{3\}$      \\
+			$\{2\}$       & $\{1\}$    			 & $\{\varnothing\}$      \\
+			$\{3\}$       & $\{\varnothing\}$    			 & $\{1\}$       \\
+			$\{4\}$       & $\{4\}$    			 & $\{5\}$       \\
+			$\{\textbf{5}\}$       & $\{6\}$    			 & $\{7\}$       \\
+			$\{\textbf{6}\}$       & $\{6\}$    			 & $\{8\}$     \\
+			$\{7\}$       & $\{6\}$    			 & $\{\varnothing\}$     \\
+			$\{8\}$       & $\{6\}$    	 & $\{\varnothing\}$  \\
+			\bottomrule
+		\end{tabular}
+\caption{}\label{app-ex-task3-1}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{.4\linewidth}
+\centering
 		\begin{tabular}{lll}
 			\toprule
 			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -1046,13 +700,26 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 			$\{6\}$       & $\{\varnothing\}$    			 & $\{5\}$     \\
 			\bottomrule
 		\end{tabular}
-	\end{center}
+\caption{}\label{app-ex-task3-2}
+\end{subfigure}
+\caption{}\label{app-ex-task3-3}
+\end{figure}
 	
 		
-	\begin{enumerate}[label=(\roman{*})]
-	\item Вычислить регулярное выражение, определяющее язык $L_1 \cap  L_2$.
-	
-	\begin{center}
+\begin{enumerate}[label=(\roman{*})]
+	\item Вычислить регулярное выражение, определяющее язык $L_1 \cap  L_2$. 
+    
+    Результат непосредственного применения известного алгоритма
+    приводит к таблице и графу переходов показанных на рисунках
+    \ref{app-ex-task3-1} (с.~\pageref{app-ex-task3-1}). и \ref{app-ex-task3-2} (с.~\pageref{app-ex-task3-2}).
+
+	Состояния 84, 74, 54, 75, 14, 35, 16, 34, 15, 36 являются непродуктивными, поэтому их можно удалить~--- см. рис.~\ref{app-ex-task3-3} (с.~\pageref{app-ex-task3-3}).
+
+\afterpage{%
+   \clearpage % flush any accumulated floats
+}
+   \begin{figure}[ht!]  % or: \begin{table}[ht!]
+\centering
 		\begin{tabular}{lll}
 			\toprule
 			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
@@ -1085,9 +752,13 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 			$\{8, 4\}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
 			\bottomrule
 		\end{tabular}
-	\end{center}
-	
-	\begin{center}	
+\caption{}\label{app-ex-task3-1}
+\end{figure}
+%}
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1161,11 +832,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(83) edge[bend left] node {$a$} (63)
 		;
 		\end{tikzpicture}
-	\end{center}
+}
+\caption{}\label{app-ex-task3-2}
+\end{figure}
 
-	Состояния 84, 74, 54, 75, 14, 35, 16, 34, 15, 36 являются непродуктивными, поэтому их можно удалить.
-	
-	\begin{center}	
+\begin{figure}[!t]
+\centering
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1215,12 +887,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(83) edge[bend left] node {$a$} (63)
 		;
 		\end{tikzpicture}
-	\end{center}
+\caption{}\label{app-ex-task3-3}
+\end{figure}
 
-	Воспользуемся методом последовательного исключения состояний. Пустим $\varepsilon$-переходы из всех допускающих состояний в новое состояние $q_f$. Все допускающие состояния сделаем недопускающими, а новое состояние $q_f$ --- допускающим.
+	Воспользуемся методом последовательного исключения состояний. Пустим $\varepsilon$-переходы из всех допускающих состояний в новое состояние $q_f$. Все допускающие состояния сделаем недопускающими, а новое состояние $q_f$ --- допускающим. Результат приведен на рис.~\ref{app-ex-task3-4}.
 	
-	
-	\begin{center}	
+\begin{figure}[h]
+\centering
+%	\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1275,11 +949,15 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		
 		;
 		\end{tikzpicture}
-	\end{center}
+%	\end{center}
+\caption{}\label{app-ex-task3-4}
+\end{figure}
 
-	1) Исключим состояние $83$:
-	
-		\begin{center}	
+%\clearpage
+\begin{minipage}{\linewidth}
+	1) Исключим состояние $83$:	
+		\begin{center}
+\resizebox{!}{9.6cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1331,12 +1009,16 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		
 		;
 		\end{tikzpicture}
+}
 	\end{center}
+\end{minipage}
+%
 
-	2) Исключим состояние $73$:
-	
+\begin{minipage}{\linewidth}
+2) Исключим состояние $73$:
 \begin{center}	
-	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+\resizebox{!}{9cm}{%
+	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
 	\node[state] (22) [above of=11] {$22$};
@@ -1383,12 +1065,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	
 	;
 	\end{tikzpicture}
+}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	3) Исключим состояние $22$:
-
 \begin{center}	
-	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
 	\node[state] (42) [below of=11] {$42$};
@@ -1434,11 +1118,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	4) Исключим состояние $33$:
-	
 	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
 		\node[state] (42) [below of=11] {$42$};
@@ -1481,11 +1166,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	5) Исключим состояние $13$:
-	
 	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
 		\node[state] (42) [below of=11] {$42$};
@@ -1525,11 +1211,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 
-	6) Исключим состояние $41$:
-
+\begin{minipage}{\linewidth}
+6) Исключим состояние $41$:
 \begin{center}	
-	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
 	\node[state] (42) [below of=11] {$42$};
@@ -1567,11 +1254,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	7) Исключим состояние $42$:
-
 \begin{center}	
-	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
 	\node[state] (23) [right of=11] {$23$};
@@ -1605,11 +1293,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 8) Исключим состояние $23$:
-
 \begin{center}	
-	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
+	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
 	\node[state] (43) [below of=11] {$43$};
@@ -1636,9 +1325,10 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 9) Исключим состояние $43$:
-
 \begin{center}	
 	\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 	\node (init) {};
@@ -1664,10 +1354,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
-	
+\end{minipage}
+
+\begin{minipage}{\linewidth}
 	10) Исключим состояние $63$:
-	
-	\begin{center}	
+    
+\resizebox{\linewidth}{!}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=7cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1683,12 +1375,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(53) edge node {$\varepsilon + (a + ba)(a + ba)^*\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
-	\end{center}
-	
+}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
 		11) Исключим состояние $53$:
-	
-	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=14cm,auto,every state/.style={thick}]
+        
+\resizebox{\linewidth}{!}{%
+		\begin{tikzpicture}[auto,>=stealth', node distance=15cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
 		\node[state, accepting] (qf) [right of=11] {$q_f$};
@@ -1699,53 +1393,26 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(11) edge node {$(a + a(aa)^*aa + a(a(bb)^*a)^*a(bb)^*a)a^*b(\varepsilon + (a + ba)(a + ba)^*)$} (qf)
 		;
 		\end{tikzpicture}
-	\end{center}
+}
+\end{minipage}
 
-Получаем : $Reg = (aa)^*(a + a(aa)^*aa + a(a(bb)^*a)^*a(bb)^*a)a^*b(\varepsilon + (a + ba)(a + ba)^*)$
+Получаем:
+\begin{multline*}
+    Reg = (aa)^*(a + a(aa)^*aa + a(a(bb)^*a)^*a(bb)^*a)\cdot \\a^*b(\varepsilon + (a + ba)(a + ba)^*).
+\end{multline*}
 		
 	\item Вычислить регулярное выражение, определяющее язык $L_1 \bigtriangleup L_2$.
-	
-	$L_1 \bigtriangleup L_2 = (L_1 \backslash L_2)\cup(L_2 \backslash L_1) = (L_1 \cap \overline{L_2}) \cup (L_2 \cap \overline{L_1})$
-	
-	
-	\begin{center}
-		\begin{tabular}{lll}
-			\toprule
-			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
-			& \multicolumn{2}{c}{Вход} \\
-			\cmidrule(rl){2-3}
-			& \multicolumn{1}{c}{$a$}
-			& \multicolumn{1}{c}{$b$}  \\
-			\midrule
-			$\to \{1, 1\}$       & $\{2, 2\}, \{2, 3\}, \{4, 2\}, \{4, 3\}$     		 & $\{\varnothing\}$      \\
-			$\{2, 2\}$       & $\{1, 1\}$    			 & $\{\varnothing\}$      \\
-			$\textbf{\{2, 3\}}$       & $\{1, 3\}$    			 & $\{\varnothing\}$      \\
-			$\textbf{\{1, 3\}}$       & $\{2, 3\}, \{4, 3\}$     &  $\{3, 3\}, \{3, 4\}$  \\
-			$\textbf{\{3, 3\}}$       & $\{\varnothing\}$     &  $\{1, 3\}, \{1, 4\}$  \\
-			$\{3, 4\}$       & $\{\varnothing\}$     &  $\{1, 5\}$  \\
-			$\{1, 4\}$       & $\{\varnothing\}$     &  $\{3, 5\}$  \\
-			$\textbf{\{1, 5\}}$       & $\{\varnothing\}$     &  $\{3, 6\}$  \\
-			$\textbf{\{3, 5\}}$       & $\{\varnothing\}$     &  $\{1, 6\}$  \\
-			$\{3, 6\}$       & $\{\varnothing\}$     &  $\{1, 5\}$  \\
-			$\{1, 6\}$       & $\{\varnothing\}$     &  $\{3, 5\}$  \\
-			$\{4, 2\}$       & $\{4, 1\}$    			 & $\{\varnothing\}$      \\
-			$\textbf{\{4, 3\}}$       & $\{4, 3\}$    			 & $\{5, 3\}, \{5, 4\}$      \\
-			$\{4, 1\}$       & $\{4, 2\}, \{4, 3\}$    			 & $\{\varnothing\}$      \\
-			$\{5, 3\}$       & $\{6, 3\}$    			 & $\{7, 3\}, \{7, 4\}$      \\
-			$\textbf{\{5, 4\}}$       & $\{\varnothing\}$    			 & $\{7, 5\}$      \\
-			$\{6, 3\}$       & $\{6, 3\}$    			 & $\{8, 3\}, \{8, 4\}$      \\
-			$\textbf{\{7, 3\}}$       & $\{6, 3\}$    			 & $\{\varnothing\}$      \\
-			$\{7, 4\}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
-			$\textbf{\{7, 5\}}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
-			$\textbf{\{8, 3\}}$       & $\{6, 3\}$    			 & $\{\varnothing\}$      \\
-			$\{8, 4\}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
-			\bottomrule
-		\end{tabular}
-	\end{center}
+    
+    Напомним, что
+	$
+        L_1 \bigtriangleup L_2 = (L_1 \backslash L_2)\cup(L_2 \backslash L_1) = (L_1 \cap \overline{L_2}) \cup (L_2 \cap \overline{L_1})
+    $.
+    Результат непосредственного применения известных конструкций
+    приводит к графу и таблице переходов показанных на рисунках
+    \ref{app-ex-task3-5} и \ref{app-ex-task3-6} (с.~\pageref{app-ex-task3-6}).
 
-
-		
-	\begin{center}	
+\begin{figure}[h!]
+\centering
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.3cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1819,12 +1486,56 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(83) edge[bend left] node {$a$} (63)
 		;
 		\end{tikzpicture}
-	\end{center}
-	
-	Состояния 74, 84 являются непродуктивными, поэтому их можно удалить.
-	
-			
-	\begin{center}	
+\caption{}\label{app-ex-task3-5}
+\end{figure}
+
+%\afterpage{%
+\clearpage
+%}
+
+\begin{figure}[h!]
+\centering
+		\begin{tabular}{lll}
+			\toprule
+			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
+			& \multicolumn{2}{c}{Вход} \\
+			\cmidrule(rl){2-3}
+			& \multicolumn{1}{c}{$a$}
+			& \multicolumn{1}{c}{$b$}  \\
+			\midrule
+			$\to \{1, 1\}$       & $\{2, 2\}, \{2, 3\}, \{4, 2\}, \{4, 3\}$     		 & $\{\varnothing\}$      \\
+			$\{2, 2\}$       & $\{1, 1\}$    			 & $\{\varnothing\}$      \\
+			$\textbf{\{2, 3\}}$       & $\{1, 3\}$    			 & $\{\varnothing\}$      \\
+			$\textbf{\{1, 3\}}$       & $\{2, 3\}, \{4, 3\}$     &  $\{3, 3\}, \{3, 4\}$  \\
+			$\textbf{\{3, 3\}}$       & $\{\varnothing\}$     &  $\{1, 3\}, \{1, 4\}$  \\
+			$\{3, 4\}$       & $\{\varnothing\}$     &  $\{1, 5\}$  \\
+			$\{1, 4\}$       & $\{\varnothing\}$     &  $\{3, 5\}$  \\
+			$\textbf{\{1, 5\}}$       & $\{\varnothing\}$     &  $\{3, 6\}$  \\
+			$\textbf{\{3, 5\}}$       & $\{\varnothing\}$     &  $\{1, 6\}$  \\
+			$\{3, 6\}$       & $\{\varnothing\}$     &  $\{1, 5\}$  \\
+			$\{1, 6\}$       & $\{\varnothing\}$     &  $\{3, 5\}$  \\
+			$\{4, 2\}$       & $\{4, 1\}$    			 & $\{\varnothing\}$      \\
+			$\textbf{\{4, 3\}}$       & $\{4, 3\}$    			 & $\{5, 3\}, \{5, 4\}$      \\
+			$\{4, 1\}$       & $\{4, 2\}, \{4, 3\}$    			 & $\{\varnothing\}$      \\
+			$\{5, 3\}$       & $\{6, 3\}$    			 & $\{7, 3\}, \{7, 4\}$      \\
+			$\textbf{\{5, 4\}}$       & $\{\varnothing\}$    			 & $\{7, 5\}$      \\
+			$\{6, 3\}$       & $\{6, 3\}$    			 & $\{8, 3\}, \{8, 4\}$      \\
+			$\textbf{\{7, 3\}}$       & $\{6, 3\}$    			 & $\{\varnothing\}$      \\
+			$\{7, 4\}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
+			$\textbf{\{7, 5\}}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
+			$\textbf{\{8, 3\}}$       & $\{6, 3\}$    			 & $\{\varnothing\}$      \\
+			$\{8, 4\}$       & $\{\varnothing\}$    			 & $\{\varnothing\}$      \\
+			\bottomrule
+		\end{tabular}
+\caption{}\label{app-ex-task3-6}
+\end{figure}
+\clearpage
+
+Состояния 74, 84 являются непродуктивными, поэтому их можно удалить~--- рис.~\ref{app-ex-task3-7}.
+
+\begin{figure}[h!]
+\centering
+\resizebox{\linewidth}{!}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1894,12 +1605,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(83) edge[bend left] node {$a$} (63)
 		;
 		\end{tikzpicture}
-	\end{center}
+}
+\caption{}\label{app-ex-task3-7}
+\end{figure}
 
-	Воспользуемся методом последовательного исключения состояний. Пустим $\varepsilon$-переходы из всех допускающих состояний в новое состояние $q_f$. Все допускающие состояния сделаем недопускающими, а новое состояние $q_f$ - допускающим.
-	
-				
-	\begin{center}	
+	Воспользуемся методом последовательного исключения состояний. Пустим $\varepsilon$-переходы из всех допускающих состояний в новое состояние $q_f$. Все допускающие состояния сделаем недопускающими, а новое состояние $q_f$ --- допускающим. Результат приведен на рис.~~\ref{app-ex-task3-8} (с.~\pageref{app-ex-task3-8}).
+
+\begin{figure}[h!]
+\centering
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.5cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -1981,8 +1694,11 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
-	\end{center}
-	
+\caption{}\label{app-ex-task3-8}
+\end{figure}
+\clearpage
+
+\begin{minipage}{\linewidth}
 	1) Исключим состояния $22$, $36$ и $16$: 		
 	\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.3cm,auto,every state/.style={thick}]
@@ -2025,7 +1741,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(34) edge node {$b$} (15)
 		
 		(14) edge node[near start] {$b$} (35)
-		(15) edge[loop above] node {$bb$} (15)
+		(15) edge[loop above] node [right] {$bb$} (15)
 		
 		(35) edge[loop above] node {$bb$} (35)
 		
@@ -2033,7 +1749,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(41) edge[bend left] node[left] {$a$} (42)
 		(41) edge node {$a$} (43)
 		
-		(43) edge[loop left] node {$a$} (43)
+		(43) edge[loop left] node [above] {$a$} (43)
 		(43) edge node[near end] {$b$} (54)
 		(43) edge[bend left] node[left] {$b$} (53)
 		
@@ -2060,9 +1776,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	2) Исключим состояние $75$: 		
 \begin{center}	
+\resizebox{!}{9.3cm}{%
 	\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
@@ -2102,7 +1821,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(34) edge node {$b$} (15)
 	
 	(14) edge node[near start] {$b$} (35)
-	(15) edge[loop above] node {$bb$} (15)
+	(15) edge[loop above] node  [right] {$bb$} (15)
 	
 	(35) edge[loop above] node {$bb$} (35)
 	
@@ -2110,7 +1829,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(41) edge[bend left] node[left] {$a$} (42)
 	(41) edge node {$a$} (43)
 	
-	(43) edge[loop left] node {$a$} (43)
+	(43) edge[loop left] node  [above] {$a$} (43)
 	(43) edge node[near end] {$b$} (54)
 	(43) edge[bend left] node[left] {$b$} (53)
 	
@@ -2134,10 +1853,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(23) edge node {$\varepsilon$} (qf)
 	;
 	\end{tikzpicture}
+}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	3) Исключим состояние $83$: 		
 \begin{center}	
+\resizebox{!}{9.3cm}{%
 	\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
@@ -2176,7 +1899,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(34) edge node {$b$} (15)
 	
 	(14) edge node[near start] {$b$} (35)
-	(15) edge[loop above] node {$bb$} (15)
+	(15) edge[loop above] node  [right] {$bb$} (15)
 	
 	(35) edge[loop above] node {$bb$} (35)
 	
@@ -2184,7 +1907,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(41) edge[bend left] node[left] {$a$} (42)
 	(41) edge node {$a$} (43)
 	
-	(43) edge[loop left] node {$a$} (43)
+	(43) edge[loop left] node  [above] {$a$} (43)
 	(43) edge node[near end] {$b$} (54)
 	(43) edge[bend left] node[left] {$b$} (53)
 	
@@ -2206,10 +1929,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(23) edge node {$\varepsilon$} (qf)
 	;
 	\end{tikzpicture}
+}
 \end{center}
-	
-		4) Исключим состояние $35$: 		
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+4) Исключим состояние $35$: 
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2252,7 +1979,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(41) edge[bend left] node[left] {$a$} (42)
 		(41) edge node {$a$} (43)
 		
-		(43) edge[loop left] node {$a$} (43)
+		(43) edge[loop left] node [above] {$a$} (43)
 		(43) edge node[near end] {$b$} (54)
 		(43) edge[bend left] node[left] {$b$} (53)
 		
@@ -2274,10 +2001,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
-	
-	5) Исключим состояние $41$: 		
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+5) Исключим состояние $41$:
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2318,7 +2049,7 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(42) edge[loop left] node {$aa$} (42)
 		(42) edge node[above] {$aa$} (43)
 		
-		(43) edge[loop above] node {$a$} (43)
+		(43) edge[loop above] node [right] {$a$} (43)
 		(43) edge node[near end] {$b$} (54)
 		(43) edge[bend right] node[left] {$b$} (53)
 		
@@ -2340,10 +2071,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
-	
-		6) Исключим состояние $15$: 		
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+6) Исключим состояние $15$: 		
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2402,10 +2137,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	7) Исключим состояние $34$: 		
 \begin{center}	
+\resizebox{!}{9.3cm}{%
 	\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
@@ -2461,10 +2200,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(23) edge node {$\varepsilon$} (qf)
 	;
 	\end{tikzpicture}
+}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	8) Исключим состояние $14$: 		
 \begin{center}	
+\resizebox{!}{9.3cm}{%
 	\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
@@ -2517,10 +2260,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(23) edge node {$\varepsilon$} (qf)
 	;
 	\end{tikzpicture}
+}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 	9) Исключим состояние $33$: 		
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.4cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2569,10 +2316,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
-	
+\end{minipage}
+
+\begin{minipage}{\linewidth}
 	10) Исключим состояние $54$: 		
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.7cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2618,10 +2369,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
-	\end{center}
+}	
+\end{center}
+\end{minipage}
 	
+\begin{minipage}{\linewidth}
 		11) Исключим состояние $73$: 		
 	\begin{center}	
+\resizebox{!}{9.3cm}{%
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.7cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
@@ -2662,9 +2417,12 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$\varepsilon$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
+\end{minipage}
 	
 	
+\begin{minipage}{\linewidth}
 	12) Исключим состояние $63$: 		
 	\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.7cm,auto,every state/.style={thick}]
@@ -2703,7 +2461,9 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 	
+\begin{minipage}{\linewidth}
 	13) Исключим состояние $42$: 		
 	\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.7cm,auto,every state/.style={thick}]
@@ -2737,11 +2497,14 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 	
 	
-	14) Исключим состояние $13$: 		
+\begin{minipage}{\linewidth}
+	14) Исключим состояние $13$:
 	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=3.5cm,auto,every state/.style={thick}]
+\resizebox{!}{9.2cm}{%
+		\begin{tikzpicture}[auto,>=stealth', node distance=4cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
 		\node[state] (23) [right of=11] {$23$};
@@ -2759,17 +2522,21 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(23) edge node {$aa$} (43)
 		
 		(43) edge[loop below] node {$a$} (43)
-		(43) edge node[left] {$b$} (53)
+		(43) edge node[left,xshift=-2mm] {$b$} (53)
 		
-		(53) edge[bend right] node[right] {$b + (a + ba)(a + ba)^*b$} (qf)
+		(53) edge[bend right] node[right,xshift=3mm] {$b + (a + ba)(a + ba)^*b$} (qf)
 		(43) edge node {$\varepsilon + b(\varepsilon + b)$} (qf)
 		(23) edge node {$\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*))$} (qf)
 		;
 		\end{tikzpicture}
+}
 	\end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 15) Исключим состояние $23$: 		
 \begin{center}	
+\resizebox{!}{9.2cm}{%
 	\begin{tikzpicture}[auto,>=stealth', node distance=8cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (11) [right=.7cm of init] {$11$};
@@ -2782,36 +2549,46 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	(11) edge[loop right] node {$aa$} (11)
 	(11) edge node[left] {$a + a(aa)^*aa + a(aa)^*aa$} (43)
 
-	(43) edge[loop below] node {$a$} (43)
+	(43) edge[loop left] node {$a$} (43)
 	(43) edge node[above] {$b$} (53)
 	
 	(53) edge node[left] {$b + (a + ba)(a + ba)^*b$} (qf)
-	(43) edge[bend left] node {$\varepsilon + b(\varepsilon + b)$} (qf)
+	(43) edge[bend left] node[xshift=6mm,yshift=3mm] {$\varepsilon + b(\varepsilon + b)$} (qf)
 	(11) edge[bend left] node {$a(aa)^*(\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*)))$} (qf)
 	;
 	\end{tikzpicture}
+}
 \end{center}
+\end{minipage}
 	
+
+\begin{minipage}{\linewidth}
 	16) Исключим состояние $53$: 		
 	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=8cm,auto,every state/.style={thick}]
+		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (11) [right=.7cm of init] {$11$};
 		\node[state, accepting] (qf) [right of=11] {$q_f$};
-		\node[state] (43) [below of=qf] {$43$};
+		\node[state] (43) [right of=qf] {$43$};
 		
 		\path[->]
 		(init) edge (11)
 		(11) edge[loop below] node {$aa$} (11)
-		(11) edge node[left] {$a + a(aa)^*aa + a(aa)^*aa$} (43)
+		(11) edge[bend right] node[below]{$K_1$} (43)
 		
 		(43) edge[loop below] node {$a$} (43)
 		
-		(43) edge node[right] {$\varepsilon + b(\varepsilon + b) + b(b + (a + ba)(a + ba)^*b)$} (qf)
-		(11) edge[bend left] node {$a(aa)^*(\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*)))$} (qf)
+		(43) edge node[above] {$K_2$} (qf)
+		(11) edge node {$K_3$} (qf)
 		;
 		\end{tikzpicture}
 	\end{center}
+    \begin{align*}
+    K_1 &= a + a(aa)^*aa + a(aa)^*aa, \\
+    K_2 &= \varepsilon + b(\varepsilon + b) + b(b + (a + ba)(a + ba)^*b), \\
+    K_3 &= a(aa)^*(\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*))).
+    \end{align*}
+\end{minipage}
 	
 	
 	17) Исключим состояние $43$: 		
@@ -2833,15 +2610,15 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 			\end{tikzpicture}
 		\end{center}
 	
-	Получаем $Reg = (aa)^*(a(aa)^*(\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*))) + (a + a(aa)^*aa + + a(aa)^*aa)a^*(\varepsilon + b(\varepsilon + b) + b(b + (a + ba)(a + ba)^*b)))$ 
-		
-		
+	Получаем
+    \begin{multline*}
+        Reg = (aa)^*(a(aa)^*(\varepsilon + a(bb)^*(\varepsilon + bb(bb)^* + b(\varepsilon + bb(bb)^*)))\\
+         + (a + a(aa)^*aa + + a(aa)^*aa)a^*(\varepsilon + b(\varepsilon + b) + b(b + (a + ba)(a + ba)^*b))).
+    \end{multline*}
+
 	\item Определить: совпадают ли языки $L_1$ и $L_2$, является ли $L_1$ дополнением $L_2$.
 	
-	1) Допустим, $L_1$ совпадает с $L_2$. Приведем контрпример. Слово $ bbaba \in L_1$,   
-	
-	но $ bbaba \notin L_2$. Делаем вывод, что $L_1 \ne L_2$.
-	\newline
+	1) Убедимся, что $L_1$ не совпадает с $L_2$, взяв в качестве контрпримера слово $ w= bbaba $. Очевидно, $w \in L_1$ и $ w \notin L_2$. Делаем вывод, что $L_1 \ne L_2$.
 	
 	2) Допустим, $L_1 = \overline{L_2}$. Приведем контрпример. Слово  $aaaab \in L_1$, 
 	
@@ -2918,8 +2695,8 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	
 	Воспользуемся методом исключения состояний:
 	
+\begin{minipage}{\linewidth}
 	1) Исключим состояние $6$:
-	
 	\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 		\node (init) {};
@@ -2944,9 +2721,10 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		;
 		\end{tikzpicture}
 	\end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 2) Исключим состояние $4$:
-
 \begin{center}	
 	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
@@ -2970,9 +2748,10 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 3) Исключим состояние $2$:
-
 \begin{center}	
 	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
@@ -2993,28 +2772,30 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 4) Исключим состояние $5$:
-
 \begin{center}	
 	\begin{tikzpicture}[auto,>=stealth', node distance=3cm,auto,every state/.style={thick}]
 	\node (init) {};
 	\node[state] (qs) [right=.7cm of init] {$q_s$};
-	\node[state] (3) [below of=qs] {$3$};	
-	\node[state, accepting] (1) [left of=3] {$1$};
+	\node[state] (3) [right=4cm of qs] {$3$};
+	\node[state, accepting] (1) [right of=3] {$1$};
 	
 	\path[->]
 	(init) edge (qs)
 	(1) edge[loop above] node {$aa$} (1)
 	(3) edge node {$a$} (1)
-	(3) edge[loop below] node {$a, b$} (3)
-	(qs) edge node[right] {$\varepsilon + \varepsilon(bb)^*bb$} (3)
+	(3) edge[loop above] node {$a, b$} (3)
+	(qs) edge node {$\varepsilon + \varepsilon(bb)^*bb$} (3)
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
+\begin{minipage}{\linewidth}
 5) Исключим состояние $3$:
-
 \begin{center}	
 	\begin{tikzpicture}[auto,>=stealth', node distance=8cm,auto,every state/.style={thick}]
 	\node (init) {};
@@ -3028,16 +2809,76 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 	;
 	\end{tikzpicture}
 \end{center}
+\end{minipage}
 
-Получаем : $Reg = (\varepsilon + (bb)^*bb)(a + b)^*a(aa)^*$
+Получаем: $Reg = (\varepsilon + (bb)^*bb)(a + b)^*a(aa)^*$.
 
-	\item Построить $\varepsilon$-НКА, распознающий один из языков $L_1L_2$, $L_1 \cup L_2$ или $L^*_1$.
-	\newline
+	\item Построить $\varepsilon$-НКА, для одного из языков $L_1L_2$, $L_1 \cup L_2$ или $L^*_1$.
 
-	Будем строить $\varepsilon$-НКА, распознающий язык $L_1^*$:
-	
-	\begin{center}	
-		\begin{tikzpicture}[auto,>=stealth', node distance=1.8cm,auto,every state/.style={thick}]
+	На рис.~\ref{app-ex-task3-12} (с.~\pageref{app-ex-task3-12}) показан $\varepsilon$-НКА, распознающий язык $L_1^*$.
+
+	\item Детерминизировать один из построенных $\varepsilon$-НКА.
+    
+    См. рис.~\ref{app-ex-task2-15}.
+    
+%    На рис.~\ref{app-ex-task2-15} показаны $\varepsilon$-НКА для языка $L_2^R$ и результат его детерминизации.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{.6\linewidth}
+\centering
+	\begin{center}
+		\begin{tabular}{llll}
+			\toprule
+			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
+			& \multicolumn{3}{c}{Вход} \\
+			\cmidrule(rl){2-4}
+			& \multicolumn{1}{c}{$a$}
+			& \multicolumn{1}{c}{$b$} 
+			& \multicolumn{1}{c}{$\varepsilon$} \\
+			\midrule
+			$\{q_s\}$       & $\{\varnothing\}$      		 & $\{\varnothing\}$     &$\{3\}, \{5\}$  \\
+			$\{1\}$       & $\{2\}$    			 & $\{\varnothing\}$     &$\{\varnothing\}$ \\
+			$\{2\}$       & $\{1\}$    			 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
+			$\{3\}$       & $\{1\}, \{3\}$    			 & $\{3\}$     &$\{\varnothing\}$  \\
+			$\{4\}$       & $\{\varnothing\}$    			 & $\{3\}$     &$\{\varnothing\}$  \\
+			$\{5\}$ 		& $\{\varnothing\}$    			 & $\{4\}, \{6\}$     &$\{\varnothing\}$  \\
+			$\{6\}$       & $\{\varnothing\}$    	 & $\{5\}$     &$\{\varnothing\}$  \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+\caption{$\varepsilon$-НКА для языка $L_2^R$}\label{app-ex-task2-14}
+\end{subfigure}%
+%
+\begin{subfigure}[b]{.4\linewidth}
+\centering
+		\begin{center}
+		\begin{tabular}{lll}
+			\toprule
+			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
+			& \multicolumn{2}{c}{Вход} \\
+			\cmidrule(rl){2-3}
+			& \multicolumn{1}{c}{$a$}
+			& \multicolumn{1}{c}{$b$}  \\
+			\midrule
+			$\{q_s, 3, 5\}$       & $\{1, 3\}$      		 & $\{3, 4, 6\}$ \\
+			$\{1, 3\}$       & $\{1, 2, 3\}$    			 & $\{3\}$    \\
+			$\{3, 4, 6\}$       & $\{1, 3\}$    			 & $\{3, 5\}$     \\
+			$\{1, 2, 3\}$       & $\{1, 2, 3\}$    			 & $\{3\}$     \\
+			$\{3\}$       & $\{1, 3\}$    			 & $\{3\}$     \\
+			$\{3, 5\}$       & $\{1, 3\}$    	 & $\{3, 4, 6\}$   \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+\caption{Детерминизация}\label{app-ex-task2-13}
+\end{subfigure}
+\caption{}\label{app-ex-task2-15}
+\end{figure}
+
+\begin{figure}
+\centering
+\resizebox{\linewidth}{!}{%
+		\begin{tikzpicture}[auto,>=stealth', node distance=2cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (30) [right=.7cm of init] {$30$};
 		\node[state] (0) [right of=30] {$0$};
@@ -3117,67 +2958,22 @@ $L_1 = (aa + bb)^*a^*ab(a + ba)^*$, $L_2 = (aa)^*a(a + b)^*(bb)^*$
 		(30) edge node[left] {$\varepsilon$} (31)
 		;
 		\end{tikzpicture}
-	\end{center}
+}
+\caption{}\label{app-ex-task3-12}
+\end{figure}
+\clearpage
 
-	\item Детерминизировать один из построенных $\varepsilon$-НКА.
-	
-	$\varepsilon$-НКА, соответствующий языку $L_2^R$:
-	
-	\begin{center}
-		\begin{tabular}{llll}
-			\toprule
-			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
-			& \multicolumn{3}{c}{Вход} \\
-			\cmidrule(rl){2-4}
-			& \multicolumn{1}{c}{$a$}
-			& \multicolumn{1}{c}{$b$} 
-			& \multicolumn{1}{c}{$\varepsilon$} \\
-			\midrule
-			$\{q_s\}$       & $\{\varnothing\}$      		 & $\{\varnothing\}$     &$\{3\}, \{5\}$  \\
-			$\{1\}$       & $\{2\}$    			 & $\{\varnothing\}$     &$\{\varnothing\}$ \\
-			$\{2\}$       & $\{1\}$    			 & $\{\varnothing\}$     &$\{\varnothing\}$  \\
-			$\{3\}$       & $\{1\}, \{3\}$    			 & $\{3\}$     &$\{\varnothing\}$  \\
-			$\{4\}$       & $\{\varnothing\}$    			 & $\{3\}$     &$\{\varnothing\}$  \\
-			$\{5\}$ 		& $\{\varnothing\}$    			 & $\{4\}, \{6\}$     &$\{\varnothing\}$  \\
-			$\{6\}$       & $\{\varnothing\}$    	 & $\{5\}$     &$\{\varnothing\}$  \\
-			\bottomrule
-		\end{tabular}
-	\end{center}
-
-	Детерминизируем его :
-		
-		\begin{center}
-		\begin{tabular}{lll}
-			\toprule
-			\multicolumn{1}{c}{\multirow{2}{*}{\Large $\delta$}}
-			& \multicolumn{2}{c}{Вход} \\
-			\cmidrule(rl){2-3}
-			& \multicolumn{1}{c}{$a$}
-			& \multicolumn{1}{c}{$b$}  \\
-			\midrule
-			$\{q_s, 3, 5\}$       & $\{1, 3\}$      		 & $\{3, 4, 6\}$ \\
-			$\{1, 3\}$       & $\{1, 2, 3\}$    			 & $\{3\}$    \\
-			$\{3, 4, 6\}$       & $\{1, 3\}$    			 & $\{3, 5\}$     \\
-			$\{1, 2, 3\}$       & $\{1, 2, 3\}$    			 & $\{3\}$     \\
-			$\{3\}$       & $\{1, 3\}$    			 & $\{3\}$     \\
-			$\{3, 5\}$       & $\{1, 3\}$    	 & $\{3, 4, 6\}$   \\
-			\bottomrule
-		\end{tabular}
-	\end{center}
-
-Введем обозначения :
-	\begin{flalign*}
-	&\{q_s, 3, 5\} = A \\
-	&\{1, 3\} = B \\
-	&\{3, 4, 6\} = C \\
-	&\{1, 2, 3\} = D \\
-	&\{3\} = E \\
-	&\{3, 5\} = F\\
-	\end{flalign*}
-Представим его граф:
-
-	
-		\begin{center}	
+Введем обозначения:
+	\begin{align*}
+	\{q_s, 3, 5\} &= A, &
+	\{1, 3\} &= B, &
+	\{3, 4, 6\} &= C, \\
+	\{1, 2, 3\} &= D, &
+	\{3\} &= E, &
+	\{3, 5\} &= F.
+	\end{align*}
+Построим граф переходов:
+\begin{center}	
 		\begin{tikzpicture}[auto,>=stealth', node distance=2.8cm,auto,every state/.style={thick}]
 		\node (init) {};
 		\node[state] (A) [right=.7cm of init] {$A$};
